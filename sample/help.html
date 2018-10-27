@@ -1,0 +1,151 @@
+<html>
+    <head>
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <title>GeForMT.js - Lorem ipsum</title>
+        <link href="sampleStyle.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="jQuery/jquery-1.7.1.min.js">
+        </script>
+		<script type="text/javascript" src="jQuery/jquery.blockUI.js">
+        </script>
+        <script type="text/javascript" src="../script/PEG.GeneratedGeForMTParser.js">
+        </script>
+        <script type="text/javascript" src="../lib/magictouch.js">
+        </script>
+        <script type="text/javascript" src="../lib/sizzle-1.5.1.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.Observation.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.Types.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.SelectorEngine.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.GestureModel.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.Parser.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.TemplateBuilder.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.GestureRecognition.js">
+        </script>
+        <script type="text/javascript" src="../script/GeForMT.VisualFeedback.js">
+        </script>
+        <script type="text/javascript" src="sampleScript.js"></script>
+    </head>
+    <body>
+        <div id="header">
+            <div id="title">
+                [GeForMT.js] sample	
+            </div>
+			<div id="subtitle">
+				Lorem ipsum
+			</div>
+			<div id="menucontainer">
+
+			<ul id="menu">
+				<li><a href="index.html"><span class="underline bold">S</span>tartseite</a></li>
+				<li><a href="offers.html"><span class="underline bold">A</span>ngebote</a></li>
+				<li><a href="company.html"><span class="underline bold">U</span>nternehmen</a></li>
+				<li><a href="contact.html"><span class="underline bold">K</span>ontakt</a></li>
+				<li><a href="help.html"><span class="underline bold">H</span>ilfe</a></li>
+			</ul>
+			<ul id="menudecoration">
+				<li style="opacity:0.1">&nbsp;</li>
+				<li style="opacity:0.3">&nbsp;</li>
+				<li style="opacity:0.4">&nbsp;</li>
+				<li style="opacity:0.8">&nbsp;</li>
+				<li>&nbsp;</li>
+			</ul>			
+			</div>
+        </div>
+		<div class="swipebuttons left" id="previousPageLabel"></div>
+		<div class="swipebuttons right" id="nextPageLabel"></div>
+        <div id="content">
+        	<div class="section">
+        		<h1>Hilfe</h1>
+				Die vorliegende Hilfe beschreibt die implementierten Gesten in diesem Anwendungsprototyp und legt deren Definition mit GeForMT offen.
+				</div>
+			<div class="section">
+				<h2>Access Keys: Symbolische Gesten als Schnellzugriff auf Seiten</h2>
+				<br />
+				<img src="img/prototyp_symbols.png" width="100%"/>
+				<br />
+				<br />
+				<span style="font-family: Courier;">
+				S = 1F(SEMICIRCLE_SW_CCW(#content),LINE_SE(#content),SEMICIRCLE_SW_CW(#content))
+					<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(SEMICIRCLE_S_CCW(#content),SEMICIRCLE_S_CW(#content)) : OFF
+				<br />
+				^ = 1F(LINE_NE(#content),LINE_SE(#content)) : OFF<br />
+				A = 1F(LINE_NE(#content),LINE_SE(#content));1F(LINE_E(#content)) : OFF<br />
+				U = 1F(LINE_S(#content),SEMICIRCLE_E_CCW(#content),LINE_N(#content)) 
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(LINE_S(#content),SEMICIRCLE_W_CW(#content),LINE_N(#content))
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(LINE_S(#content),SEMICIRCLE_E_CCW(#content),LINE_N(#content),LINE_S(#content)) : OFF
+				<br />
+				K = ASIDE[1F(LINE_S(#content));1F(LINE_SW(#content),LINE_SE(#content))]
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(LINE_S(#content),LINE_S(#content),LINE_S(#content),LINE_N(#content),LINE_N(#content),
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CIRCLE_W_CW(#content),LINE_SE(#content)) : OFF
+				<br />
+				? = AMONG[1F(SEMICIRCLE_SE(#content),LINE_S(#content));1F(POINT(#content))] : OFF
+				<br />
+				H = 1F(LINE_S(#content),LINE_S(#content),SEMICIRCLE_E_CW(#content))
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(LINE_S(#content));1F(LINE_S(#content));1F(LINE_E(#content)) : OFF
+				</span>
+				</div>
+			<div class="section">
+				<h2>Adaption der Browser-Navigation: Vor- und Zurückgehen in der Browser-History</h2>
+				<br />
+				<img src="img/prototyp_history.png" width="100%"/>
+				
+				<br />
+				<br />
+				<span style="font-family: Courier;">
+				undo = 1F(LINE_W(#content),CIRCLE_S_CW(#content),LINE_W(#content))
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(LINE_W(#content),CIRCLE_N_CCW(#content),LINE_W(#content)) : OFF <br />
+				redo = 1F(LINE_E(#content),CIRCLE_S_CCW(#content),LINE_E(#content))
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;|1F(LINE_E(#content),CIRCLE_N_CW(#content),LINE_E(#content)) : OFF
+				</span>
+				</div>
+			<div class="section">
+				<h2>Navigation: Blättern, Scrollen und Skalieren</h2>
+				<br />
+				<img src="img/prototyp_adapt.png" width="100%"/>
+				<br />
+				<br />
+				<span style="font-family: Courier;">
+				swipeToPreviousPage = 1F(LINE_E(div#previousPageLabel)) : ON<br />
+				swipeToNextPage = 1F(LINE_W(#nextPageLabel)) : ON <br />
+				scrollPage = MOVE(body) : ON <br />
+				scaleFontDown = JOIN[2F(LINE(.section))] : OFF <br />
+				scaleFontUp = SPLIT[2F(LINE(.section))] : OFF
+				</span>
+ 			</div>
+  		</div>
+        <div id="footer">
+           <div id="pagenavi">
+                <ul>
+                    <li>
+                        <img src="img/dot.png"/>
+                    </li>
+                    <li>
+                       <img src="img/dot.png"/>
+                    </li>
+                    <li>
+                       <img src="img/dot.png"/>
+                    </li>
+                    <li>
+                        <img src="img/dot.png"/>
+                    </li>
+                    <li>
+                        <img src="img/dot.png"/>
+                    </li>
+                </ul>
+                <br/>
+                <span id="pagenum">Seite 5/5</span>
+            </div>
+        </div>
+        <object id="tuio" type="application/x-tuio" style="width:0px; height:0px">
+        <!--Plugin for receiving TUIO messages failed to load. Install the npTuioClient-Plugin.-->
+        </object>
+    </body>
+</html>

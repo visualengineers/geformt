@@ -1,0 +1,1334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - GeForMT.Observation</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/GeForMT.html">GeForMT</a></li>
+	
+	<li><a href="../symbols/GeForMT-GestureConfig.html">GeForMT-GestureConfig</a></li>
+	
+	<li><a href="../symbols/GeForMT.CONTACT_TYPES.html">GeForMT.CONTACT_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.DIRECTION_TYPES.html">GeForMT.DIRECTION_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.FUNCTION_TYPES.html">GeForMT.FUNCTION_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.Gesture.html">GeForMT.Gesture</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureModel.html">GeForMT.GestureModel</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureModel-AtomicGesture.html">GeForMT.GestureModel-AtomicGesture</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureModel-ComplexGesture.html">GeForMT.GestureModel-ComplexGesture</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureModel-Gesture.html">GeForMT.GestureModel-Gesture</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureModel-GestureObjectModel.html">GeForMT.GestureModel-GestureObjectModel</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition.html">GeForMT.GestureRecognition</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-CheckModel.html">GeForMT.GestureRecognition-CheckModel</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-GestureRecognitionFailedEvent.html">GeForMT.GestureRecognition-GestureRecognitionFailedEvent</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-GestureRecognitionStartedEvent.html">GeForMT.GestureRecognition-GestureRecognitionStartedEvent</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-RecognitionProcessManager.html">GeForMT.GestureRecognition-RecognitionProcessManager</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-Recognizer.html">GeForMT.GestureRecognition-Recognizer</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-Recognizer-DollarRecognizer.html">GeForMT.GestureRecognition-Recognizer-DollarRecognizer</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-Recognizer-RelationRecognizer.html">GeForMT.GestureRecognition-Recognizer-RelationRecognizer</a></li>
+	
+	<li><a href="../symbols/GeForMT.GestureRecognition-Recognizer-StaticGestureRecognizer.html">GeForMT.GestureRecognition-Recognizer-StaticGestureRecognizer</a></li>
+	
+	<li><a href="../symbols/GeForMT.Observation.html">GeForMT.Observation</a></li>
+	
+	<li><a href="../symbols/GeForMT.Observation-Contact.html">GeForMT.Observation-Contact</a></li>
+	
+	<li><a href="../symbols/GeForMT.Observation-EventObservation.html">GeForMT.Observation-EventObservation</a></li>
+	
+	<li><a href="../symbols/GeForMT.OPERATION_TYPES.html">GeForMT.OPERATION_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.Parser.html">GeForMT.Parser</a></li>
+	
+	<li><a href="../symbols/GeForMT.RELATION_TYPES.html">GeForMT.RELATION_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.ROTATION_TYPES.html">GeForMT.ROTATION_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.SelectorEngine.html">GeForMT.SelectorEngine</a></li>
+	
+	<li><a href="../symbols/GeForMT.SHAPE_TYPES.html">GeForMT.SHAPE_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.TemplateBuilder.html">GeForMT.TemplateBuilder</a></li>
+	
+	<li><a href="../symbols/GeForMT.TemplateBuilder-Point.html">GeForMT.TemplateBuilder-Point</a></li>
+	
+	<li><a href="../symbols/GeForMT.TemplateBuilder-Template.html">GeForMT.TemplateBuilder-Template</a></li>
+	
+	<li><a href="../symbols/GeForMT.VECTOR_TYPES.html">GeForMT.VECTOR_TYPES</a></li>
+	
+	<li><a href="../symbols/GeForMT.VisualFeedback.html">GeForMT.VisualFeedback</a></li>
+	
+	<li><a href="../symbols/PEG.html">PEG</a></li>
+	
+	<li><a href="../symbols/PEG.GeneratedGeForMTParser.html">PEG.GeneratedGeForMTParser</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Namespace GeForMT.Observation
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_dana_Desktop_Data_Uni_Diplom_workspace_DA_PROJ_Dana_Henkens_workspace_build_jsGeForMT_v1.0_js_output_jsGeForMT_v1.0.full.js.html">jsGeForMT_v1.0.full.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class GeForMT.Observation.">
+				<caption>Namespace Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#constructor">GeForMT.Observation</a></b>
+							</div>
+							<div class="description">Observation module</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class GeForMT.Observation.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-_documentEventObservation">_documentEventObservation</a></b>
+								</div>
+								<div class="description">EventObservation for entire web interface.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-_mouseMoveEventEnabled">_mouseMoveEventEnabled</a></b>
+								</div>
+								<div class="description">Global attribute to enable/ disable mousemove events.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-_mouseStrokeId">_mouseStrokeId</a></b>
+								</div>
+								<div class="description">Identifier that is incremented and is used for mouse-touch-emulation.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-_preventDefault">_preventDefault</a></b>
+								</div>
+								<div class="description">Setting to prevent default behaviour on events.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-_registeredEventObservations">_registeredEventObservations</a></b>
+								</div>
+								<div class="description">List of objects of type GeForMT.Observation.EventObservation.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-EVENT_TYPES">EVENT_TYPES</a></b>
+								</div>
+								<div class="description">Enumeration of possible mouse and touch events.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-RegisteredDocumentEventListener">RegisteredDocumentEventListener</a></b>
+								</div>
+								<div class="description">Registered listener that wants to be notified of events on document only.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/GeForMT.Observation.html#-RegisteredGestureEventListener">RegisteredGestureEventListener</a></b>
+								</div>
+								<div class="description">Registered listeners that wants to be notified of all events on interface objects related to defined gestures.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class GeForMT.Observation.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/GeForMT.Observation.html#-_addEventListener">_addEventListener</a></b>(element, eventName, handler, captureEvents)
+								</div>
+								<div class="description">Helper method for cross-browser registering of event listeners.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/GeForMT.Observation.html#-_createAndDispatchTouchEvent">_createAndDispatchTouchEvent</a></b>(name, event)
+								</div>
+								<div class="description">Create and dispatch a TouchEvent to simulate a single touch with a mouse.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/GeForMT.Observation.html#-_notifyAllDocumentEventListener">_notifyAllDocumentEventListener</a></b>(eventName, event)
+								</div>
+								<div class="description">Notify all registered document event listener.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;inner&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/GeForMT.Observation.html#-_notifyAllGestureEventListener">_notifyAllGestureEventListener</a></b>(eventName, event)
+								</div>
+								<div class="description">Notify all registered gesture listener.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.addEventObservation">addEventObservation</a></b>(gestureId, elementList)
+								</div>
+								<div class="description">Register an observation on the given list of elements get informed
+about interaction on them.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.getObservationByElement">getObservationByElement</a></b>(element)
+								</div>
+								<div class="description">Returns the observer that is already registered on the given element
+node or null if it's not.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.init">init</a></b>(preventDefault)
+								</div>
+								<div class="description">Initialize observation module.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.registerDocumentEventListener">registerDocumentEventListener</a></b>(eventName, callback)
+								</div>
+								<div class="description">Register listener objects that wants to be notified about
+events that are registered on document object.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.registerGestureEventListener">registerGestureEventListener</a></b>(eventName, callback)
+								</div>
+								<div class="description">Register listener objects that wants to be notified about all interaction
+events.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.removeDocumentEventListener">removeDocumentEventListener</a></b>(eventName, callback)
+								</div>
+								<div class="description">Remove listener that don't want to be notified about
+events on document object anymore.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.removeGestureEventListener">removeGestureEventListener</a></b>(eventName, callback)
+								</div>
+								<div class="description">Remove listener that don't want to be notified about all interaction
+events anymore.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">GeForMT.Observation.<b><a href="../symbols/GeForMT.Observation.html#.removeGestureFromEventObservation">removeGestureFromEventObservation</a></b>(gestureId)
+								</div>
+								<div class="description">Removes a gesture identifier from an event observation.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Namespace Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>GeForMT.Observation</b>
+				</div>
+				
+				<div class="description">
+					Observation module
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="-_documentEventObservation"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					<span class="light">{GeForMT.Observation.EventObservation}</span>
+					<b>_documentEventObservation</b>
+					
+					</div>
+					<div class="description">
+						EventObservation for entire web interface. Events are registered on document object.
+This is necessary to detect events beyond objects that registered
+for gestures, especially for feedback visualization.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								null
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="-_mouseMoveEventEnabled"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<b>_mouseMoveEventEnabled</b>
+					
+					</div>
+					<div class="description">
+						Global attribute to enable/ disable mousemove events.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								false
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="-_mouseStrokeId"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					
+					<b>_mouseStrokeId</b>
+					
+					</div>
+					<div class="description">
+						Identifier that is incremented and is used for mouse-touch-emulation.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-_preventDefault"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<b>_preventDefault</b>
+					
+					</div>
+					<div class="description">
+						Setting to prevent default behaviour on events.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								false
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="-_registeredEventObservations"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					<span class="light">{Array}</span>
+					<b>_registeredEventObservations</b>
+					
+					</div>
+					<div class="description">
+						List of objects of type GeForMT.Observation.EventObservation.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								null
+							</dd>
+							</dl>
+						
+
+					<hr />
+				
+					<a name="-EVENT_TYPES"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					<span class="light">{Object}</span>
+					<b>EVENT_TYPES</b>
+					
+					</div>
+					<div class="description">
+						Enumeration of possible mouse and touch events.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-RegisteredDocumentEventListener"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					<span class="light">{Object}</span>
+					<b>RegisteredDocumentEventListener</b>
+					
+					</div>
+					<div class="description">
+						Registered listener that wants to be notified of events on document only.
+Holds listener objects for specific events. Accordingly the object contains variables like 'gesturestart', 
+'gesturechange' and 'gestureend' holding an array of callback functions.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-RegisteredGestureEventListener"> </a>
+					<div class="fixedFont">&lt;inner&gt; 
+					
+					<span class="light">{Object}</span>
+					<b>RegisteredGestureEventListener</b>
+					
+					</div>
+					<div class="description">
+						Registered listeners that wants to be notified of all events on interface objects related to defined gestures.
+Holds listener objects for specific events. Accordingly the object contains variables 'gesturestart', 
+'gesturechange' and 'gestureend' holding an array of callback functions.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="-_addEventListener"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					
+					<b>_addEventListener</b>(element, eventName, handler, captureEvents)
+					
+					</div>
+					<div class="description">
+						Helper method for cross-browser registering of event listeners.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>handler</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>captureEvents</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-_createAndDispatchTouchEvent"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					
+					<b>_createAndDispatchTouchEvent</b>(name, event)
+					
+					</div>
+					<div class="description">
+						Create and dispatch a TouchEvent to simulate a single touch with a mouse.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>name</b>
+									
+								</dt>
+								<dd>Event type of event to dispatch.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{MouseEvent}</span> <b>event</b>
+									
+								</dt>
+								<dd>Original event, that has to be adapted.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-_notifyAllDocumentEventListener"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					
+					<b>_notifyAllDocumentEventListener</b>(eventName, event)
+					
+					</div>
+					<div class="description">
+						Notify all registered document event listener.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd>Type name of the event.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{UIEvent}</span> <b>event</b>
+									
+								</dt>
+								<dd>Adapted Touch Event.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="-_notifyAllGestureEventListener"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;inner&gt; 
+					
+					
+					<b>_notifyAllGestureEventListener</b>(eventName, event)
+					
+					</div>
+					<div class="description">
+						Notify all registered gesture listener.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd>Type name of the event.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{UIEvent}</span> <b>event</b>
+									
+								</dt>
+								<dd>Adapted Touch Event.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".addEventObservation"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>addEventObservation</b>(gestureId, elementList)
+					
+					</div>
+					<div class="description">
+						Register an observation on the given list of elements get informed
+about interaction on them.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>gestureId</b>
+									
+								</dt>
+								<dd>{String} Identifier of the gesture.</dd>
+							
+								<dt>
+									<b>elementList</b>
+									
+								</dt>
+								<dd>{Array} List of all elements on which the events will be
+           registered.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getObservationByElement"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>getObservationByElement</b>(element)
+					
+					</div>
+					<div class="description">
+						Returns the observer that is already registered on the given element
+node or null if it's not.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>GeForMT.Observation.EventObserver</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".init"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>init</b>(preventDefault)
+					
+					</div>
+					<div class="description">
+						Initialize observation module.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>preventDefault</b>
+									
+								</dt>
+								<dd>{Boolean} Set to true for preventing the default behaviour
+           on all events.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".registerDocumentEventListener"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>registerDocumentEventListener</b>(eventName, callback)
+					
+					</div>
+					<div class="description">
+						Register listener objects that wants to be notified about
+events that are registered on document object. (only on document)
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".registerGestureEventListener"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>registerGestureEventListener</b>(eventName, callback)
+					
+					</div>
+					<div class="description">
+						Register listener objects that wants to be notified about all interaction
+events.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".removeDocumentEventListener"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>removeDocumentEventListener</b>(eventName, callback)
+					
+					</div>
+					<div class="description">
+						Remove listener that don't want to be notified about
+events on document object anymore. (only on document)
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".removeGestureEventListener"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>removeGestureEventListener</b>(eventName, callback)
+					
+					</div>
+					<div class="description">
+						Remove listener that don't want to be notified about all interaction
+events anymore.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>eventName</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>callback</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".removeGestureFromEventObservation"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">GeForMT.Observation.</span><b>removeGestureFromEventObservation</b>(gestureId)
+					
+					</div>
+					<div class="description">
+						Removes a gesture identifier from an event observation.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>gestureId</b>
+									
+								</dt>
+								<dd>Identifier of the gesture, that has to be removed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Sat Feb 04 2012 14:41:44 GMT+0100 (MEZ)
+		</div>
+	</body>
+</html>

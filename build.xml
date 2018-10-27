@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jsGeForMT_v1.0" default="cleanup">
+	<description>
+        Simple build file: creates compressed js library file and generates code documentation.
+   </description>
+
+	<path id="cp2">
+		<fileset dir="./tools" includes="*.jar" excludes="js-1.7r2.jar" />
+	</path>
+	<taskdef name="compress-js" classname="com.webpanes.tools.ant.taskdefs.CompressJS" classpathref="cp2" />
+
+	<path id="cp1">
+		<fileset dir="./tools" includes="*.jar" excludes="custom_rhino.jar" />
+	</path>
+	<taskdef name="jsdoctoolkit" classname="uk.co.darrenhurley.ant.tasks.JsDocToolkit" classpathref="cp1" />
+
+	<!-- set global properties for this build -->
+	<property name="projName" value="${ant.project.name}" />
+	<property name="projSrc" location="./script/" />
+	<property name="projLibSrc" location="./lib/" />
+	<property name="buildDest" location="./build" />
+	<property name="tempBuildDest" location="./build/_tmpjs" />
+	<property name="outputBuildDest" location="./build" />
+	<property name="docProjDest" location="./doc" />
+
+	<target name="init">
+		<!--create build directory -->
+		<mkdir dir="${buildDest}" />
+		<mkdir dir="${tempBuildDest}" />
+		<mkdir dir="${outputBuildDest}" />
+		<!-- create doc directory -->
+		<mkdir dir="${docProjDest}" />
+	</target>
+
+	<target name="concat" depends="init">
+		<!-- concat js files and copy script to build directory -->
+		<copy todir="${tempBuildDest}" overwrite="true">
+			<!-- script files -->
+			<fileset dir="${projSrc}">
+				<include name="*.js" />
+				<exclude name="_*.js" />
+			</fileset>
+			<!--  libraries -->
+			<fileset dir="${projLibSrc}">
+				<include name="*.js" />
+				<exclude name="_*.js" />
+			</fileset>
+		</copy>
+		<concat destfile="${outputBuildDest}/${projName}.full.js">
+			<!-- Important: GeForMT.js must be the first written in the output file. The order is important. -->
+			<filelist dir="${tempBuildDest}" files="GeForMT.js,GeForMT.Types.js,GeForMT.Parser.js,PEG.GeneratedGeForMTParser.js,GeForMT.GestureModel.js,GeForMT.TemplateBuilder.js,GeForMT.SelectorEngine.js,GeForMT.Observation.js,GeForMT.VisualFeedback.js,GeForMT.GestureRecognition.js" />
+			<filelist dir="${tempBuildDest}" files="sizzle-1.5.1.js" />
+			<!-- Option without regarding the order (not recommended)
+			<fileset dir="${tempBuildDest}">
+				<include name="*.js" />
+			</fileset>-->
+		</concat>
+	</target>
+
+	<!-- generate javascript code documentation -->
+	<target name="generateDoc" depends="concat">
+		<jsdoctoolkit jsdochome="./tools/jsdoc_toolkit-2.4.0/jsdoc-toolkit/" template="jsdoc" outputdir="${docProjDest}" includeundocumented="true" includeunderscored="true" includeprivate="true" verbose="true">
+			<source file="${outputBuildDest}/${projName}.full.js" />
+		</jsdoctoolkit>
+	</target>
+
+	<target name="compress" depends="concat">
+		<!-- compress script and create compress script file -->
+		<compress-js file="${outputBuildDest}/${projName}.full.js" tofile="${outputBuildDest}/${projName}.min.js" verbose="true" stripCR="true">
+		</compress-js>
+	</target>
+	<!-- clean temporary build directory -->
+	<target name="cleanup" depends="compress">
+		<delete dir="${tempBuildDest}">
+		</delete>
+	</target>
+</project>
