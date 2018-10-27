@@ -143,14 +143,14 @@ function peg$parse(input, options) {
 
       peg$c0 = function(complex, opt) {	var definition={options: []};
        			definition.options.push(complex);
-       			for (var i=0;i&lt;opt.length;i++){
+       			for (var i=0;i<opt.length;i++){
        				definition.options.push(opt[i][1]);
        			}
        			return definition;
       		},
       peg$c1 = function(gesture, gestures) {	var complex = {relation:null,gestures:[]};
       			complex.gestures.push(gesture);
-      			for(var i=0;i&lt;gestures.length;i++){		
+      			for(var i=0;i<gestures.length;i++){		
       				complex.gestures.push(gestures[i][1]);
       				gestures[i][1].operation=gestures[i][0];
       			}
@@ -162,7 +162,7 @@ function peg$parse(input, options) {
       peg$c5 = peg$literalExpectation("]", false),
       peg$c6 = function(rel, gesture, gestures) {	var complex = {relation:rel,gestures:[]};
       			complex.gestures.push(gesture);
-      			for(var i=0;i&lt;gestures.length;i++){
+      			for(var i=0;i<gestures.length;i++){
       				complex.gestures.push(gestures[i][1]);
       				gestures[i][1].operation=gestures[i][0];
       			}
@@ -176,14 +176,14 @@ function peg$parse(input, options) {
       peg$c12 = peg$literalExpectation(")", false),
       peg$c13 = function(func, afo, afos) {	var gesture={funct:func,atomfocus: []};
       			gesture.atomfocus.push(afo);
-      			for(var i=0;i&lt;afos.length;i++){
+      			for(var i=0;i<afos.length;i++){
       				gesture.atomfocus.push(afos[i][1]);
       			}
       			return gesture;
       		},
       peg$c14 = function(afo, afos) {	var gesture= {funct:null,atomfocus: []};
       			gesture.atomfocus.push(afo);
-      			for(var i=0;i&lt;afos.length;i++){
+      			for(var i=0;i<afos.length;i++){
       				gesture.atomfocus.push(afos[i][1]);
       			}
       			return gesture;
@@ -219,7 +219,7 @@ function peg$parse(input, options) {
       peg$c43 = function(atom) {	return {atom:atom,focuslist:[]};},
       peg$c44 = function(focus, list) {	var focuslist=[];
       			focuslist.push(focus);
-      			for(var i=0;i&lt;list.length;i++){
+      			for(var i=0;i<list.length;i++){
       				focuslist.push(list[i][1]);
       			}
       			return focuslist;
@@ -328,23 +328,23 @@ function peg$parse(input, options) {
       peg$c125 = peg$literalExpectation("SW", false),
       peg$c126 = "NW",
       peg$c127 = peg$literalExpectation("NW", false),
-      peg$c128 = "N&deg;",
-      peg$c129 = peg$literalExpectation("N&deg;", false),
+      peg$c128 = "N\xB0",
+      peg$c129 = peg$literalExpectation("N\xB0", false),
       peg$c130 = function() {return GeForMT.DIRECTION_TYPES.TEND_NORTH;},
       peg$c131 = "N",
       peg$c132 = peg$literalExpectation("N", false),
-      peg$c133 = "E&deg;",
-      peg$c134 = peg$literalExpectation("E&deg;", false),
+      peg$c133 = "E\xB0",
+      peg$c134 = peg$literalExpectation("E\xB0", false),
       peg$c135 = function() {return GeForMT.DIRECTION_TYPES.TEND_EAST;},
       peg$c136 = "E",
       peg$c137 = peg$literalExpectation("E", false),
-      peg$c138 = "W&deg;",
-      peg$c139 = peg$literalExpectation("W&deg;", false),
+      peg$c138 = "W\xB0",
+      peg$c139 = peg$literalExpectation("W\xB0", false),
       peg$c140 = function() {return GeForMT.DIRECTION_TYPES.TEND_WEST;},
       peg$c141 = "W",
       peg$c142 = peg$literalExpectation("W", false),
-      peg$c143 = "S&deg;",
-      peg$c144 = peg$literalExpectation("S&deg;", false),
+      peg$c143 = "S\xB0",
+      peg$c144 = peg$literalExpectation("S\xB0", false),
       peg$c145 = function() {return GeForMT.DIRECTION_TYPES.TEND_SOUTH;},
       peg$c146 = "S",
       peg$c147 = peg$literalExpectation("S", false),
@@ -1743,9 +1743,9 @@ function peg$parse(input, options) {
                           s0 = s1;
                           if (s0 === peg$FAILED) {
                             s0 = peg$currPos;
-                            if (input.substr(peg$currPos, 6) === peg$c128) {
+                            if (input.substr(peg$currPos, 2) === peg$c128) {
                               s1 = peg$c128;
-                              peg$currPos += 6;
+                              peg$currPos += 2;
                             } else {
                               s1 = peg$FAILED;
                               if (peg$silentFails === 0) { peg$fail(peg$c129); }
@@ -1771,9 +1771,9 @@ function peg$parse(input, options) {
                               s0 = s1;
                               if (s0 === peg$FAILED) {
                                 s0 = peg$currPos;
-                                if (input.substr(peg$currPos, 6) === peg$c133) {
+                                if (input.substr(peg$currPos, 2) === peg$c133) {
                                   s1 = peg$c133;
-                                  peg$currPos += 6;
+                                  peg$currPos += 2;
                                 } else {
                                   s1 = peg$FAILED;
                                   if (peg$silentFails === 0) { peg$fail(peg$c134); }
@@ -1799,9 +1799,9 @@ function peg$parse(input, options) {
                                   s0 = s1;
                                   if (s0 === peg$FAILED) {
                                     s0 = peg$currPos;
-                                    if (input.substr(peg$currPos, 6) === peg$c138) {
+                                    if (input.substr(peg$currPos, 2) === peg$c138) {
                                       s1 = peg$c138;
-                                      peg$currPos += 6;
+                                      peg$currPos += 2;
                                     } else {
                                       s1 = peg$FAILED;
                                       if (peg$silentFails === 0) { peg$fail(peg$c139); }
@@ -1827,9 +1827,9 @@ function peg$parse(input, options) {
                                       s0 = s1;
                                       if (s0 === peg$FAILED) {
                                         s0 = peg$currPos;
-                                        if (input.substr(peg$currPos, 6) === peg$c143) {
+                                        if (input.substr(peg$currPos, 2) === peg$c143) {
                                           s1 = peg$c143;
-                                          peg$currPos += 6;
+                                          peg$currPos += 2;
                                         } else {
                                           s1 = peg$FAILED;
                                           if (peg$silentFails === 0) { peg$fail(peg$c144); }

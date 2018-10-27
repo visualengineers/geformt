@@ -59,7 +59,7 @@
 
 	<!-- generate javascript code documentation -->
 	<target name="generateDoc" depends="concat">
-		<jsdoctoolkit jsdochome="./tools/jsdoc_toolkit-2.4.0/jsdoc-toolkit/" template="jsdoc" outputdir="${docProjDest}" includeundocumented="true" includeunderscored="true" includeprivate="true" verbose="true">
+		<jsdoctoolkit jsdochome="./tools/jsdoc-toolkit/" template="jsdoc" outputdir="${docProjDest}" includeundocumented="true" includeunderscored="true" includeprivate="true" verbose="true">
 			<source file="${outputBuildDest}/${projName}.full.js" />
 		</jsdoctoolkit>
 	</target>

@@ -1,7 +1,7 @@
 definition = complex:complex opt:(option complex)*
  		{	var definition={options: []};
  			definition.options.push(complex);
- 			for (var i=0;i&lt;opt.length;i++){
+ 			for (var i=0;i<opt.length;i++){
  				definition.options.push(opt[i][1]);
  			}
  			return definition;
@@ -10,7 +10,7 @@ definition = complex:complex opt:(option complex)*
 complex = gesture:gesture gestures:(operator gesture)*
  		{	var complex = {relation:null,gestures:[]};
 			complex.gestures.push(gesture);
-			for(var i=0;i&lt;gestures.length;i++){		
+			for(var i=0;i<gestures.length;i++){		
 				complex.gestures.push(gestures[i][1]);
 				gestures[i][1].operation=gestures[i][0];
 			}
@@ -19,7 +19,7 @@ complex = gesture:gesture gestures:(operator gesture)*
 	/rel:relation'[' gesture:gesture gestures:(operator gesture)*']'
 		{	var complex = {relation:rel,gestures:[]};
 			complex.gestures.push(gesture);
-			for(var i=0;i&lt;gestures.length;i++){
+			for(var i=0;i<gestures.length;i++){
 				complex.gestures.push(gestures[i][1]);
 				gestures[i][1].operation=gestures[i][0];
 			}
@@ -29,7 +29,7 @@ complex = gesture:gesture gestures:(operator gesture)*
 gesture = func:function'('afo:atomfocus afos:(','atomfocus)*')'
 		{	var gesture={funct:func,atomfocus: []};
 			gesture.atomfocus.push(afo);
-			for(var i=0;i&lt;afos.length;i++){
+			for(var i=0;i<afos.length;i++){
 				gesture.atomfocus.push(afos[i][1]);
 			}
 			return gesture;
@@ -37,7 +37,7 @@ gesture = func:function'('afo:atomfocus afos:(','atomfocus)*')'
 	/afo:atomfocus afos:(','atomfocus)*   
 		{	var gesture= {funct:null,atomfocus: []};
 			gesture.atomfocus.push(afo);
-			for(var i=0;i&lt;afos.length;i++){
+			for(var i=0;i<afos.length;i++){
 				gesture.atomfocus.push(afos[i][1]);
 			}
 			return gesture;
@@ -61,7 +61,7 @@ atomfocus = atom:atom'('focus:focuslist')'
 focuslist = focus:focus list:(','focus)*
 		{	var focuslist=[];
 			focuslist.push(focus);
-			for(var i=0;i&lt;list.length;i++){
+			for(var i=0;i<list.length;i++){
 				focuslist.push(list[i][1]);
 			}
 			return focuslist;
@@ -134,13 +134,13 @@ direction =	'NORTH' {return GeForMT.DIRECTION_TYPES.NORTH;}
 	/'SE' {return GeForMT.DIRECTION_TYPES.SOUTHEAST;}
 	/'SW' {return GeForMT.DIRECTION_TYPES.SOUTHWEST;}
 	/'NW' {return GeForMT.DIRECTION_TYPES.NORTHWEST;}
-	/'N&deg;' {return GeForMT.DIRECTION_TYPES.TEND_NORTH;}
+	/'N°' {return GeForMT.DIRECTION_TYPES.TEND_NORTH;}
 	/'N' {return GeForMT.DIRECTION_TYPES.NORTH;}
-	/'E&deg;' {return GeForMT.DIRECTION_TYPES.TEND_EAST;}
+	/'E°' {return GeForMT.DIRECTION_TYPES.TEND_EAST;}
 	/'E' {return GeForMT.DIRECTION_TYPES.EAST;}
-	/'W&deg;' {return GeForMT.DIRECTION_TYPES.TEND_WEST;}
+	/'W°' {return GeForMT.DIRECTION_TYPES.TEND_WEST;}
 	/'W' {return GeForMT.DIRECTION_TYPES.WEST;}
-	/'S&deg;' {return GeForMT.DIRECTION_TYPES.TEND_SOUTH;}
+	/'S°' {return GeForMT.DIRECTION_TYPES.TEND_SOUTH;}
 	/'S' {return GeForMT.DIRECTION_TYPES.SOUTH;}
 
 rotation = 'CLOCKWISE' {return GeForMT.ROTATION_TYPES.CLOCKWISE;}
