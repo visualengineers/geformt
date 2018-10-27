@@ -100,8 +100,7 @@ GeForMT.GestureRecognition = (function(){
         }
         else {
             _recognitionProcessManager.updateEventProfiles(e);
-        }
-        
+        }        
     }
     /**
      * Event handler that listens to 'gesturechange' events of the Observation module.
@@ -232,8 +231,8 @@ GeForMT.GestureRecognition = (function(){
         
         var gestureStartEvent = currentStrokeEventProfile[0];
         var lastEvent = this.currentEvent;
-        this.duration = (lastEvent.timeStamp / 1000) -
-        (gestureStartEvent.timeStamp / 1000);
+        this.duration = Math.round((lastEvent.timeStamp / 1000) -
+        (gestureStartEvent.timeStamp / 1000));
         
     }
     GestureRecognizedEvent.prototype = /*@lends*/ {
@@ -274,7 +273,7 @@ GeForMT.GestureRecognition = (function(){
          */
         expr: null,
         /**
-         * Duration in seconds between start of the gesture and last event of the event list.
+         * Duration in milliseconds between start of the gesture and last event of the event list.
          */
         duration: 0,
         /**
@@ -282,7 +281,56 @@ GeForMT.GestureRecognition = (function(){
          * @type Boolean
          * @default false
          */
-        online: false
+        online: false,
+        /**
+         * Get bounding box of the gesture. Object structure: {top: value, bottom: value, left: value, right: value}
+         * @return Object
+         */
+        getBoundingBox: function(){
+       	//get bounding box
+        var minX = +Infinity;
+        var maxX = 0;
+        var minY = +Infinity;
+        var maxY = 0;
+                 
+       	for (var i = 0; i < this.pathes.length; i++) {
+                                	
+        	var templates=this.pathes[i];
+                                
+            // calc bounding box
+            for (var pta = 0; pta < templates.length; pta++) {
+            	var points = templates[pta].points;
+                for (var p = 0; p < points.length; p++) {
+                	var x = points[p].x;
+                    var y = points[p].y;
+                    minX = Math.min(x, minX);
+                	minY = Math.min(y, minY);
+                	maxX = Math.max(x, maxX);
+                	maxY = Math.max(y, maxY);
+               
+                }
+           }
+       	}
+       	return{
+                    top: minY,
+                    right: maxX,
+                    bottom: maxY,
+                    left: minX
+                };
+        },
+        /**
+         * Get center of the gesture as Object with following structure: {x: value, y: value}
+         * @return Object
+         */
+        getMidPoint: function(){
+        	var bb=this.getBoundingBox();
+        	return{
+        	x: 	bb.left+(bb.right-bb.left)/2,
+        	y: 	bb.top+(bb.bottom-bb.top)/2
+        }
+        }
+        
+       
     };
     /**
      * Controller of the recognition process.
@@ -698,7 +746,7 @@ GeForMT.GestureRecognition = (function(){
                             else {
                                 // online recognition
                                 
-                                this.gestureRecognized(rGestureId, events);
+                                this.gestureRecognized(rGestureId, events, pathes);
                                 exclude = true;
                                 
                             }
@@ -744,13 +792,13 @@ GeForMT.GestureRecognition = (function(){
              * @type Number
              * @default 30
              */
-            horizontalLimitOffset: 30,
+            horizontalLimitOffset: 10,
             /**
              * Offset of vertical range for ASIDE relation. (px)
              * @type Number
              * @default 20
              */
-            verticalLimitOffset: 20,
+            verticalLimitOffset: 10,
             /**
              * Offset representing the valid area for SYNC relation. (px)
              * @type Number
@@ -794,57 +842,64 @@ GeForMT.GestureRecognition = (function(){
                         case GeForMT.RELATION_TYPES.CROSS:
                             if (isMultistroke &&
                             typeof previousStrokeTemplates !== 'undefined' &&
-                            previousStrokeTemplates.length > 0) {
-                                var ptPoints = previousStrokeTemplates[0].points;
-                                var tPoints = templates[0].points;
-                                var pointsOfIntersection = [];
-                                for (var pt = 0; pt < ptPoints.length - 1; pt++) {
-                                    var x1 = ptPoints[pt].x;
-                                    var x2 = ptPoints[pt + 1].x;
-                                    var y1 = ptPoints[pt].y;
-                                    var y2 = ptPoints[pt + 1].y;
-                                    var pBoundingBox = this._getBoundingBox(x1, x2, y1, y2);
-                                    if (relationRecognized) {
-                                        break;
-                                    }
-                                    for (var t = 0; t < tPoints.length - 1; t++) {
-                                        var xt1 = tPoints[t].x;
-                                        var xt2 = tPoints[t + 1].x;
-                                        var yt1 = tPoints[t].y;
-                                        var yt2 = tPoints[t + 1].y;
-                                        var tBoundingBox = this._getBoundingBox(xt1, xt2, yt1, yt2);
-                                        var intersectionBoundingBox = this._getIntersectionBoundingBox(pBoundingBox, tBoundingBox);
-                                        if (intersectionBoundingBox !== null) {
-                                        
-                                            //calculate parameters of linear functions
-                                            var linearFunc1 = this._calcLinearFunction(x1, y1, x2, y2);
-                                            var linearFunc2 = this._calcLinearFunction(xt1, yt1, xt2, yt2);
-                                            // calculate point of intersection
-                                            var pointOfIntersection = this._calcPointOfIntersection(linearFunc1, linearFunc2);
-                                            
-                                            // point of intersection in valid range?
-                                            // if true, then pathes are crossing
-                                            var poiX = pointOfIntersection.x;
-                                            var poiY = pointOfIntersection.y;
-                                            if (!isNaN(poiX) && !isNaN(poiY)) {
-                                            
-                                                if (poiY >= intersectionBoundingBox.top &&
-                                                poiY <= intersectionBoundingBox.bottom &&
-                                                poiX >= intersectionBoundingBox.left &&
-                                                poiX <= intersectionBoundingBox.right) {
-                                                    //part of pathes are crossing
-                                                    relationRecognized = true;
-                                                    break;
-                                                // pointsOfIntersection.push(pointOfIntersection);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                                
+                            previousStrokeTemplates.length > 0)
+                            {
+                            	var pBoundingBox = this._getBoundingBox(previousStrokeTemplates[0].points);
+                            	var tBoundingBox = this._getBoundingBox(templates[0].points);
+                            	var intersectionBoundingBox = this._getIntersectionBoundingBox(pBoundingBox, tBoundingBox);
+                            	if (intersectionBoundingBox !== null) relationRecognized = true;
+                            	
+                            	console.debug("crossing");
+                            	
+                                // var ptPoints = previousStrokeTemplates[0].points;
+                                // var tPoints = templates[0].points;
+                                // var pointsOfIntersection = [];
+                                // for (var pt = 0; pt < ptPoints.length - 1; pt++) {
+                                    // var x1 = ptPoints[pt].x;
+                                    // var x2 = ptPoints[pt + 1].x;
+                                    // var y1 = ptPoints[pt].y;
+                                    // var y2 = ptPoints[pt + 1].y;
+                                    // var pBoundingBox = this._getBoundingBox(x1, x2, y1, y2);
+                                    // if (relationRecognized) {
+                                        // break;
+                                    // }
+                                    // for (var t = 0; t < tPoints.length - 1; t++) {
+                                        // var xt1 = tPoints[t].x;
+                                        // var xt2 = tPoints[t + 1].x;
+                                        // var yt1 = tPoints[t].y;
+                                        // var yt2 = tPoints[t + 1].y;
+                                        // var tBoundingBox = this._getBoundingBox(xt1, xt2, yt1, yt2);
+                                        // var intersectionBoundingBox = this._getIntersectionBoundingBox(pBoundingBox, tBoundingBox);
+                                        // if (intersectionBoundingBox !== null) {
+//                                         
+                                            // //calculate parameters of linear functions
+                                            // var linearFunc1 = this._calcLinearFunction(x1, y1, x2, y2);
+                                            // var linearFunc2 = this._calcLinearFunction(xt1, yt1, xt2, yt2);
+                                            // // calculate point of intersection
+                                            // var pointOfIntersection = this._calcPointOfIntersection(linearFunc1, linearFunc2);
+//                                             
+                                            // // point of intersection in valid range?
+                                            // // if true, then pathes are crossing
+                                            // var poiX = pointOfIntersection.x;
+                                            // var poiY = pointOfIntersection.y;
+                                            // if (!isNaN(poiX) && !isNaN(poiY)) {
+//                                             
+                                                // if (poiY >= intersectionBoundingBox.top &&
+                                                // poiY <= intersectionBoundingBox.bottom &&
+                                                // poiX >= intersectionBoundingBox.left &&
+                                                // poiX <= intersectionBoundingBox.right) {
+                                                    // //part of pathes are crossing
+                                                    // relationRecognized = true;
+                                                    // break;
+                                                // // pointsOfIntersection.push(pointOfIntersection);
+                                                // }
+                                            // }
+                                        // }
+                                    // }                                    
+                                // }
                             }
-                            else {
+                            else
+                            {
                                 if (!isMultistroke) {
                                 
                                 }
@@ -1048,25 +1103,47 @@ GeForMT.GestureRecognition = (function(){
                                     }
                                 }
                                 
-                                //offset for tolerance
-                                minX = minX - this.horizontalLimitOffset;
-                                maxX = maxX + this.horizontalLimitOffset;
                                 relationRecognized = true;
+                                
                                 // check current added gesture strokes
+                                
+                                var cminX = +Infinity;
+                                var cmaxX = 0;
+                                var cminY = +Infinity;
+                                var cmaxY = 0;
                                 for (var t = 0; t < templates.length; t++) {
                                     var template = templates[t];
                                     for (var tp = 0; tp < template.points.length; tp++) {
                                         var px = template.points[tp].x;
                                         var py = template.points[tp].y;
-                                        var pointInValidRange = (px > minX &&
-                                        px < maxX &&
-                                        py < minY ||
-                                        py > maxY);
-                                        if (!pointInValidRange) {
-                                            relationRecognized = false;
-                                            break;
+                                        
+                                        if (px < cminX) {
+                                            cminX = px;
+                                        }
+                                        if (py < cminY) {
+                                            cminY = py;
+                                        }
+                                        if (px > cmaxX) {
+                                            cmaxX = px;
+                                        }
+                                        if (py > cmaxY) {
+                                            cmaxY = py;
                                         }
                                     }
+                                }
+                                // is among?
+                                if((minY<cminY && maxY<cminY) || (minY>cmaxY && maxY>cmaxY)){
+                                	// is in valid horizontal area
+                                	if(((cminX-this.horizontalLimitOffset) < minX && (cmaxX+this.horizontalLimitOffset) > maxX) || (cmaxX<(maxX+this.horizontalLimitOffset) && cminX > (minX-this.horizontalLimitOffset))){
+                                		relationRecognized = true;
+                                	}else{
+                                		relationRecognized = false;
+                                            break;
+                                	}
+                                	
+                                }else{
+                                	relationRecognized = false;
+                                            break;
                                 }
                             }
                             else {
@@ -1105,24 +1182,49 @@ GeForMT.GestureRecognition = (function(){
                                 }
                                 
                                 //offset for tolerance
-                                minY = minY - this.verticalLimitOffset;
-                                maxY = maxY + this.verticalLimitOffset;
+                                //minY = minY - this.verticalLimitOffset;
+                                //maxY = maxY + this.verticalLimitOffset;
                                 relationRecognized = true;
+                                
                                 // check current added gesture strokes
+                                
+                                var cminX = +Infinity;
+                                var cmaxX = 0;
+                                var cminY = +Infinity;
+                                var cmaxY = 0;
                                 for (var t = 0; t < templates.length; t++) {
                                     var template = templates[t];
                                     for (var tp = 0; tp < template.points.length; tp++) {
                                         var px = template.points[tp].x;
                                         var py = template.points[tp].y;
-                                        var pointInValidRange = (px < minX ||
-                                        px > maxX &&
-                                        py > minY &&
-                                        py < maxY);
-                                        if (!pointInValidRange) {
-                                            relationRecognized = false;
-                                            break;
+                                        
+                                        if (px < cminX) {
+                                            cminX = px;
+                                        }
+                                        if (py < cminY) {
+                                            cminY = py;
+                                        }
+                                        if (px > cmaxX) {
+                                            cmaxX = px;
+                                        }
+                                        if (py > cmaxY) {
+                                            cmaxY = py;
                                         }
                                     }
+                                }
+                                // is aside?
+                                if((minX<cminX && maxX<cminX) || (minX>cmaxX && maxX>cmaxX)){
+                                	// is in valid vertical area
+                                	if(((cminY-this.verticalLimitOffset) < minY && (cmaxY+this.verticalLimitOffset) > maxY) || (cmaxY<(maxY+this.verticalLimitOffset) && cminY > (minY-this.verticalLimitOffset))){
+                                		relationRecognized = true;
+                                	}else{
+                                		relationRecognized = false;
+                                            break;
+                                	}
+                                	
+                                }else{
+                                	relationRecognized = false;
+                                            break;
                                 }
                             }
                             else {
@@ -1157,6 +1259,33 @@ GeForMT.GestureRecognition = (function(){
                     left: left
                 };
             },
+            /**
+             * Helper method to calculate the bounding box (a rectangle) based on a point list.
+             * @param {Array} points
+             * @return {Objects} Object that represents the bounding box. It has the following properties: top, right, left and bottom.
+             */
+            _getBoundingBox: function(points)
+            {
+				var top = points[0].y;
+                var right = points[0].x;
+                var bottom = points[0].y;
+                var left = points[0].x;
+
+            	for(var i = 1; i < points.length; i++)
+            	{
+                	if(points[i].y < top) top = points[i].y;
+                	if(points[i].y > bottom) bottom = points[i].y;
+                	if(points[i].x < left) left = points[i].x;
+                	if(points[i].x > right) right = points[i].x;
+                }
+                
+                return {
+                    top: top,
+                    right: right,
+                    bottom: bottom,
+                    left: left
+                };
+            },            
             /**
              * Helper method to calculate intersection area of two bounding boxes (rectangles).
              * @param {Object} boundingBox1
@@ -1298,6 +1427,12 @@ GeForMT.GestureRecognition = (function(){
              */
             movementRadius: 10,
             /**
+             * Minimal time in milliseconds that is required to recognize a hold gesture.
+             * @type Number
+             * @default 100
+             */
+            minHoldRecognitionInterval: 700,
+            /**
              * Main function to compare performed gestures and candidate gestures.
              * @param {Object} performedGestures
              * @param {Object} candidateGestures
@@ -1325,11 +1460,17 @@ GeForMT.GestureRecognition = (function(){
                             var dx = points[points.length - 1].x - points[0].x;
                             var dy = points[points.length - 1].y - points[0].y;
                             var movementDistance = Math.sqrt(dx * dx + dy * dy);
-                            if (movementDistance < this.movementRadius && atomicGestures[0].gestureType == GeForMT.CONTACT_TYPES.POINT) {
-                                // POINT recognized
-                                optionRecognized = true;
-                            }
-                            else {
+                            var duration= Math.round((events[events.length-1].timeStamp-events[0].timeStamp)/1000);
+                            
+                           
+                            if((movementDistance < this.movementRadius) && (atomicGestures[0].gestureType === GeForMT.CONTACT_TYPES.HOLD) && (this.minHoldRecognitionInterval<duration)){
+                            		// HOLD recognized
+                            			optionRecognized = true;
+                            }else if(movementDistance < this.movementRadius && atomicGestures[0].gestureType == GeForMT.CONTACT_TYPES.POINT){
+                            		// POINT recognized
+                               		optionRecognized = true;
+                            
+                            } else {
                                 optionRecognized = false;
                                 // case MOVE gesture definition
                                 if (atomicGestures[0].gestureType == GeForMT.CONTACT_TYPES.MOVE) {

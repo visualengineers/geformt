@@ -142,7 +142,10 @@ GeForMT.VisualFeedback = (function(){
         
         _feedbackCanvas.width = (document.documentElement.scrollWidth !== 0) ? document.documentElement.scrollWidth : 0;
         _feedbackCanvas.height = (document.documentElement.scrollHeight !== 0) ? document.documentElement.scrollHeight : 0;
-        
+        if(_feedbackCanvas.height<window.innerHeight){
+        	_feedbackCanvas.height=window.innerHeight;
+        }
+
         _pathesFeedbackCanvas = document.createElement("canvas");
         var pathesCanvasStyle = _pathesFeedbackCanvas.style;
         
@@ -161,7 +164,9 @@ GeForMT.VisualFeedback = (function(){
         
         _pathesFeedbackCanvas.width = (document.documentElement.scrollWidth !== 0) ? document.documentElement.scrollWidth : 0;
         _pathesFeedbackCanvas.height = (document.documentElement.scrollHeight !== 0) ? document.documentElement.scrollHeight : 0;
-        
+        if(_pathesFeedbackCanvas.height<window.innerHeight){
+        	_pathesFeedbackCanvas.height=window.innerHeight;
+        }
         
         window.onresize = function(){
             _feedbackCanvas.width = (document.documentElement.scrollWidth !== 0) ? document.documentElement.scrollWidth : 0;

@@ -190,6 +190,8 @@ var GeForMT = (function(){
             
                 _feedbackModule.setVisualFeedback(_defaultSettings.feedback);
             }
+        }else{
+        	_feedbackModule.setVisualFeedback(_defaultSettings.feedback);
         }
         
     }
@@ -629,7 +631,14 @@ var GeForMT = (function(){
          * @param {Boolean} on Online or Offline recognition. (optional)
          * @param {String} descr Description of the gesture. (optional)
          */
-        Gesture: GestureConfig
+        Gesture: GestureConfig,
+        /**
+         * Change setting of feedback visualization.
+         * @param {Boolean} bool
+         */
+        setFeedback: function(bool){
+        	_feedbackModule.setVisualFeedback(bool);
+        }
     
     };
 })();

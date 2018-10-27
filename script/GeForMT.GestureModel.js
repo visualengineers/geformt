@@ -305,6 +305,14 @@ GeForMT.GestureModel = (function(){
                 if (typeof object.online !== 'undefined') {
                     gesture.online = object.online;
                 }
+
+                for (var key in _gestures) {
+                	//gesture with this identifier exists?
+                    if (_gestures[key].identifier == gesture.identifier) {
+                        _gestures.splice(key,1);
+                        break;
+                    }
+            	}
                 
                 // add gesture to list
                 _gestures.push(gesture);

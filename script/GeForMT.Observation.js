@@ -57,68 +57,15 @@ GeForMT.Observation = (function(){
     /**
      * Identifier that is incremented and is used for mouse-touch-emulation.
      */
-    var _mouseStrokeId=0;
-    /**
-     * Enumeration of possible mouse and touch events. 
-     * @type Object
+    var _mouseStrokeId = 0;
+	
+	/**
+     * Stack, where the mouse events are stored before propagation. Based on this stack, propagation of events can be stopped without using event.stopPropagation().
+     * This is necessary because touchevents are propagating with a bubbling strategy too.
+     * @type MouseEvent
+     * @default null
      */
-    var EVENT_TYPES = /*lends*/{
-    	/**
-    	 * Touchstart event
-    	 * @constant
-    	 */
-        TOUCHSTART: 0,
-         /**
-    	 * Touchend event
-    	 * @constant
-    	 */
-        TOUCHEND: 1,
-         /**
-    	 * Touchmove event
-    	 * @constant
-    	 */
-        TOUCHMOVE: 2,
-        /**
-    	 * Touchenter event
-    	 * @constant
-    	 */
-        TOUCHENTER: 3,
-         /**
-    	 * Touchleave event
-    	 * @constant
-    	 */
-        TOUCHLEAVE: 4,
-       /**
-    	 * Touchcancel event
-    	 * @constant
-    	 */
-        TOUCHCANCEL: 5,
-            	/**
-    	 * Mousedown event
-    	 * @constant
-    	 */
-        MOUSEDOWN: 6,
-            	/**
-    	 * Mouseup event
-    	 * @constant
-    	 */
-        MOUSEUP: 7,
-            	/**
-    	 * Mousemove event
-    	 * @constant
-    	 */
-        MOUSEMOVE: 8,
-            	/**
-    	 * Mouseover event
-    	 * @constant
-    	 */
-        MOUSEOVER: 9,
-            	/**
-    	 * Mouseout event
-    	 * @constant
-    	 */
-        MOUSEOUT: 10
-    };
+	var targetMouseEvent=null;
     
 	 /**
      * Contact object that generalizes a single mouse or touch contact point.
@@ -256,24 +203,163 @@ GeForMT.Observation = (function(){
     
         this.gestureIdList = [gestureId];
         
-        
+        this.captureEvents = captureEvents;
         this.element = element;
         //console.debug(this.element);
+        
+        var context = this;
+        
+        this._mousedown = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            //e.stopPropagation();
+            _createAndDispatchTouchEvent('touchstart', e);
+            // _notifyAllGestureEventListener('gesturestart', gestureEvent); 
+        };
+        
+        this._mouseup = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            //e.stopPropagation();
+            //   var contacts = new ContactList([new Contact(null, e.screenX, e.screenY, e.clientX, e.clientY, null, null, null, null, null, null)]);
+            //  var gestureEvent = new GestureEvent(contacts, null, null, e.altKey, e.crtlKey, e.metaKey, e.shiftKey, e.button, e.target, e.currentTarget, e.relatedTarget, e.timestamp,e.type, e,context.gestureIdList);
+            _createAndDispatchTouchEvent('touchend', e);
+            // _notifyAllGestureEventListener('gestureend', gestureEvent);
+        };
+        
+        this._mousemove = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            //e.stopPropagation();
+            _createAndDispatchTouchEvent('touchmove', e);
+        };
+        
+        this._mouseover = function(e){
+            if (_preventDefault) {
+                e.preventDefault();
+            }
+            _createAndDispatchTouchEvent('touchenter', e);
+        };
+        
+        this._mouseout = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            _createAndDispatchTouchEvent('touchleave', e);
+        };
+        
+        this._touchstart = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            //create Contact Objects as representation of Touch
+            // this is required, because these objects are pooled from API
+            var contacts = [];
+            for (var i = 0; i < e.touches.length; i++) {
+                var touch = e.touches[i];
+                var contact = new Contact(touch.identifier, touch.screenX, touch.screenY, touch.clientX, touch.clientY, touch.pageX, touch.pageY, touch.radiusX, touch.radiusY, touch.rotationAngle, touch.force);
+                contacts.push(contact);
+            }
+            //e.touches=newTouches;
+            e.contacts = contacts;
+            e.relatedGestures = context.gestureIdList;
+            if (context === _documentEventObservation) {
+                _notifyAllDocumentEventListener('gesturestart', e);
+            }
+            else {
+                _notifyAllGestureEventListener('gesturestart', e);
+            }
+        };
+        
+        this._touchend = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            
+            //create Contact Objects as representation of Touch
+            // this is required, because these objects are pooled from API
+            var contacts = [];
+            for (var i = 0; i < e.touches.length; i++) {
+                var touch = e.touches[i];
+                var contact = new Contact(touch.identifier, touch.screenX, touch.screenY, touch.clientX, touch.clientY, touch.pageX, touch.pageY, touch.radiusX, touch.radiusY, touch.rotationAngle, touch.force);
+                contacts.push(contact);
+            }
+            //e.touches=newTouches;
+            e.contacts = contacts;
+            e.relatedGestures = context.gestureIdList;
+            if (context === _documentEventObservation) {
+                _notifyAllDocumentEventListener('gestureend', e);
+            }
+            else {
+                _notifyAllGestureEventListener('gestureend', e);
+            }
+            
+        };
+        
+        this._touchmove = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            
+            //console.debug(e.touches[0].pageX);
+            //create Contact Objects as representation of Touch
+            // this is required, because these objects are pooled from API
+            var contacts = [];
+            for (var i = 0; i < e.touches.length; i++) {
+                var touch = e.touches[i];
+                var contact = new Contact(touch.identifier, touch.screenX, touch.screenY, touch.clientX, touch.clientY, touch.pageX, touch.pageY, touch.radiusX, touch.radiusY, touch.rotationAngle, touch.force);
+                contacts.push(contact);
+            }
+            //	console.debug(newTouches[0].pageX);
+            //e.touches=newTouches;
+            e.contacts = contacts;
+            e.relatedGestures = context.gestureIdList;
+            if (context === _documentEventObservation) {
+                _notifyAllDocumentEventListener('gesturechange', e);
+            }
+            else {
+                _notifyAllGestureEventListener('gesturechange', e);
+            }
+            
+        };
+        
+        this._touchenter = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            
+        };
+        
+        this._touchleave = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+            
+        };
+        this._touchcancel = function(e){
+            if (_preventDefault && !(context === _documentEventObservation)) {
+                e.preventDefault();
+            }
+        };
+        
         try {
             // touch events
-            _addEventListener(this.element, 'touchstart', this._getEventHandler(EVENT_TYPES.TOUCHSTART),captureEvents);
-            _addEventListener(this.element, 'touchend', this._getEventHandler(EVENT_TYPES.TOUCHEND),captureEvents);
-            _addEventListener(this.element, 'touchmove', this._getEventHandler(EVENT_TYPES.TOUCHMOVE),captureEvents);
-            _addEventListener(this.element, 'touchcancel', this._getEventHandler(EVENT_TYPES.TOUCHCANCEL),captureEvents);
-            _addEventListener(this.element, 'touchenter', this._getEventHandler(EVENT_TYPES.TOUCHENTER),captureEvents);
-            _addEventListener(this.element, 'touchleave', this._getEventHandler(EVENT_TYPES.TOUCHLEAVE),captureEvents);
+            _addEventListener(this.element, 'touchstart', this._touchstart, this.captureEvents);
+            _addEventListener(this.element, 'touchend', this._touchend, this.captureEvents);
+            _addEventListener(this.element, 'touchmove', this._touchmove, this.captureEvents);
+            _addEventListener(this.element, 'touchcancel', this._touchcancel, this.captureEvents);
+            _addEventListener(this.element, 'touchenter', this._touchenter, this.captureEvents);
+            _addEventListener(this.element, 'touchleave', this._touchleave, this.captureEvents);
             
             // mouse events
-            _addEventListener(this.element, 'mousedown', this._getEventHandler(EVENT_TYPES.MOUSEDOWN),captureEvents);
-            _addEventListener(this.element, 'mousemove', this._getEventHandler(EVENT_TYPES.MOUSEMOVE),captureEvents);
-            _addEventListener(this.element, 'mouseup', this._getEventHandler(EVENT_TYPES.MOUSEUP),captureEvents);
-            _addEventListener(this.element, 'mouseover', this._getEventHandler(EVENT_TYPES.MOUSEOVER),captureEvents);
-            _addEventListener(this.element, 'mouseout', this._getEventHandler(EVENT_TYPES.MOUSEOUT),captureEvents);
+            _addEventListener(this.element, 'mousedown', this._mousedown, this.captureEvents);
+            _addEventListener(this.element, 'mousemove', this._mousemove, this.captureEvents);
+            _addEventListener(this.element, 'mouseup', this._mouseup, this.captureEvents);
+            _addEventListener(this.element, 'mouseover', this._mouseover, this.captureEvents);
+            _addEventListener(this.element, 'mouseout', this._mouseout, this.captureEvents);
         } 
         catch (e) {
             // throw own exception with additional information
@@ -287,7 +373,7 @@ GeForMT.Observation = (function(){
         
     }
     
-    EventObservation.prototype = /** @lends GeForMT.Observation-EventObservation*/{
+    EventObservation.prototype = /** @lends GeForMT.Observation-EventObservation*/ {
         /**
          * Subject to observe.
          *
@@ -295,7 +381,12 @@ GeForMT.Observation = (function(){
          * @default null
          */
         element: null,
-        
+        /**
+         * Capturing or bubbling strategy adopted?
+         * @default false
+         * @type boolean
+         */
+        captureEvents: false,
         /**
          * Gesture Identifier the observed subject belongs to.
          *
@@ -321,7 +412,7 @@ GeForMT.Observation = (function(){
          *         if not.
          */
         gestureIdExists: function(gestureId){
-            for (var key=0; key<this.gestureIdList.length;key++) {
+            for (var key = 0; key < this.gestureIdList.length; key++) {
                 if (this.gestureIdList[key] === gestureId) {
                     return true;
                 }
@@ -333,9 +424,9 @@ GeForMT.Observation = (function(){
          * @param {String} gestureId Identifier of the gesture.
          */
         removeGestureId: function(gestureId){
-        	for (var key=0; key<this.gestureIdList.length;key++) {
+            for (var key = 0; key < this.gestureIdList.length; key++) {
                 if (this.gestureIdList[key] == gestureId) {
-                    this.gestureIdList.splice(key,1);
+                    this.gestureIdList.splice(key, 1);
                     break;
                 }
             }
@@ -345,190 +436,91 @@ GeForMT.Observation = (function(){
          * It removes all event handler from the element.
          */
         finalize: function(){
-        	// touch events
-            _removeEventListener(this.element, 'touchstart', this._getEventHandler(EVENT_TYPES.TOUCHSTART));
-            _removeEventListener(this.element, 'touchend', this._getEventHandler(EVENT_TYPES.TOUCHEND));
-            _removeEventListener(this.element, 'touchmove', this._getEventHandler(EVENT_TYPES.TOUCHMOVE));
-            _removeEventListener(this.element, 'touchcancel', this._getEventHandler(EVENT_TYPES.TOUCHCANCEL));
-            _removeEventListener(this.element, 'touchenter', this._getEventHandler(EVENT_TYPES.TOUCHENTER));
-            _removeEventListener(this.element, 'touchleave', this._getEventHandler(EVENT_TYPES.TOUCHLEAVE));
+            // touch events
+            _removeEventListener(this.element, 'touchstart', this._touchstart, this.captureEvents);
+            _removeEventListener(this.element, 'touchend', this._touchend, this.captureEvents);
+            _removeEventListener(this.element, 'touchmove', this._touchmove, this.captureEvents);
+            _removeEventListener(this.element, 'touchcancel', this._touchcancel, this.captureEvents);
+            _removeEventListener(this.element, 'touchenter', this._touchenter, this.captureEvents);
+            _removeEventListener(this.element, 'touchleave', this._touchleave, this.captureEvents);
             
             // mouse events
-            _removeEventListener(this.element, 'mousedown', this._getEventHandler(EVENT_TYPES.MOUSEDOWN));
-            _removeEventListener(this.element, 'mousemove', this._getEventHandler(EVENT_TYPES.MOUSEMOVE));
-            _removeEventListener(this.element, 'mouseup', this._getEventHandler(EVENT_TYPES.MOUSEUP));
-            _removeEventListener(this.element, 'mouseover', this._getEventHandler(EVENT_TYPES.MOUSEOVER));
-            _removeEventListener(this.element, 'mouseout', this._getEventHandler(EVENT_TYPES.MOUSEOUT));
- 
+            _removeEventListener(this.element, 'mousedown', this._mousedown, this.captureEvents);
+            _removeEventListener(this.element, 'mousemove', this._mousedown, this.captureEvents);
+            _removeEventListener(this.element, 'mouseup', this._mouseup, this.captureEvents);
+            _removeEventListener(this.element, 'mouseover', this._mouseover, this.captureEvents);
+            _removeEventListener(this.element, 'mouseout', this._mouseout, this.captureEvents);
+            
         },
         /**
-         * Returns the event handler by type.
-         * See GeForMT.Observation.EVENT_TYPES getting the implemented event types.
-         *
-         * @private
-         * @param eventType
-         *            GeForMT.Observation.EVENT_TYPES
-         * @return {Function} Returns the event handler or null if the eventType
-         *         is unknown.
+         * Event handler for mousedown event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
          */
-        _getEventHandler: function(eventType){
-            var context = this;
-            var handler = null;
-			var i=0;
-            
-            switch (eventType) {
-                case EVENT_TYPES.TOUCHSTART:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-						//create Contact Objects as representation of Touch
-						// this is required, because these objects are pooled from API
-						var contacts=[];
-						for(var i=0;i<e.touches.length;i++){
-							var touch=e.touches[i];
-							var contact=new Contact(touch.identifier, touch.screenX, touch.screenY, touch.clientX, touch.clientY, touch.pageX, touch.pageY, touch.radiusX, touch.radiusY, touch.rotationAngle, touch.force);
-							contacts.push(contact);
-						}
-						//e.touches=newTouches;
-						e.contacts=contacts;
-                        e.relatedGestures = context.gestureIdList;
-                        if (context === _documentEventObservation) {
-                            _notifyAllDocumentEventListener('gesturestart', e);
-                        }
-                        else {
-                            _notifyAllGestureEventListener('gesturestart', e);
-                        }
-                    };
-                    break;
-                case EVENT_TYPES.TOUCHEND:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-						//create Contact Objects as representation of Touch
-						// this is required, because these objects are pooled from API
-						var contacts=[];
-						for(var i=0;i<e.touches.length;i++){
-							var touch=e.touches[i];
-							var contact=new Contact(touch.identifier, touch.screenX, touch.screenY, touch.clientX, touch.clientY, touch.pageX, touch.pageY, touch.radiusX, touch.radiusY, touch.rotationAngle, touch.force);
-							contacts.push(contact);
-						}
-						//e.touches=newTouches;
-						e.contacts=contacts;
-                        e.relatedGestures = context.gestureIdList;
-                        if (context === _documentEventObservation) {
-                            _notifyAllDocumentEventListener('gestureend', e);
-                        }
-                        else {
-                            _notifyAllGestureEventListener('gestureend', e);
-                        }
-                        
-                    };
-                    break;
-                case EVENT_TYPES.TOUCHMOVE:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-						//console.debug(e.touches[0].pageX);
-					//create Contact Objects as representation of Touch
-						// this is required, because these objects are pooled from API
-                      var contacts=[];
-						for(var i=0;i<e.touches.length;i++){
-							var touch=e.touches[i];
-							var contact=new Contact(touch.identifier, touch.screenX, touch.screenY, touch.clientX, touch.clientY, touch.pageX, touch.pageY, touch.radiusX, touch.radiusY, touch.rotationAngle, touch.force);
-							contacts.push(contact);
-						}
-					//	console.debug(newTouches[0].pageX);
-						//e.touches=newTouches;
-						e.contacts=contacts;
-                        e.relatedGestures = context.gestureIdList;
-                        if (context === _documentEventObservation) {
-                            _notifyAllDocumentEventListener('gesturechange', e);
-                        }
-                        else {
-                            _notifyAllGestureEventListener('gesturechange', e);
-                        }
-
-                    };
-                    break;
-                case EVENT_TYPES.TOUCHENTER:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                       
-                    };
-                    break;
-                case EVENT_TYPES.TOUCHLEAVE:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                       
-                    };
-                    break;
-                case EVENT_TYPES.TOUCHCANCEL:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                    };
-                    break;
-                case EVENT_TYPES.MOUSEDOWN:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                        e.stopPropagation();
-
-                        _createAndDispatchTouchEvent('touchstart', e);
-                    // _notifyAllGestureEventListener('gesturestart', gestureEvent); 
-                    };
-                    break;
-                case EVENT_TYPES.MOUSEUP:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                        e.stopPropagation();
-                        //   var contacts = new ContactList([new Contact(null, e.screenX, e.screenY, e.clientX, e.clientY, null, null, null, null, null, null)]);
-                        //  var gestureEvent = new GestureEvent(contacts, null, null, e.altKey, e.crtlKey, e.metaKey, e.shiftKey, e.button, e.target, e.currentTarget, e.relatedTarget, e.timestamp,e.type, e,context.gestureIdList);
-                        _createAndDispatchTouchEvent('touchend', e);
-                    // _notifyAllGestureEventListener('gestureend', gestureEvent);
-                    };
-                    break;
-                case EVENT_TYPES.MOUSEMOVE:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                        e.stopPropagation();
-                        _createAndDispatchTouchEvent('touchmove', e);
-                    };
-                    break;
-                case EVENT_TYPES.MOUSEOVER:
-                    handler = function(e){
-                        if (_preventDefault) {
-                            e.preventDefault();
-                        }
-                        _createAndDispatchTouchEvent('touchenter', e);
-                    };
-                    break;
-                case EVENT_TYPES.MOUSEOUT:
-                    handler = function(e){
-                        if (_preventDefault && !(context === _documentEventObservation)) {
-                            e.preventDefault();
-                        }
-                        _createAndDispatchTouchEvent('touchleave', e);
-                    };
-                    break;
-                    
-            }
-            return handler;
-        }
-        
+        _mousedown: null,
+        /**
+         * Event handler for mousemove event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _mousemove: null,
+        /**
+         * Event handler for mouseup event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _mouseup: null,
+        /**
+         * Event handler for mouseover event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _mouseover: null,
+        /**
+         * Event handler for mouseout event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _mouseout: null,
+        /**
+         * Event handler for touchstart event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _touchstart: null,
+        /**
+         * Event handler for touchend event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _touchend: null,
+        /**
+         * Event handler for touchmove event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _touchmove: null,
+        /**
+         * Event handler for touchcancel event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _touchcancel: null,
+        /**
+         * Event handler for touchenter event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _touchenter: null,
+        /**
+         * Event handler for touchleave event. The function is assigned in constructor of EventObservation.
+         * @default null
+         * @type Function
+         */
+        _touchleave: null
+    
+    
+    
     };
     
     /**
@@ -541,13 +533,13 @@ GeForMT.Observation = (function(){
         var listLength = handlerList.length;
         for (var i = 0; i < listLength; i++) {
             var callback = handlerList[i];
-            if (callback != 'undefined' && event.relatedGestures.length>0) {
+            if (callback != 'undefined' && event.relatedGestures.length > 0) {
                 callback(event);
             }
         }
     }
-	
-	    
+    
+    
     /**
      * Notify all registered document event listener.
      * @param  {String} eventName Type name of the event.
@@ -563,14 +555,28 @@ GeForMT.Observation = (function(){
             }
         }
     }
-    
+
+	
     /**
      * Create and dispatch a TouchEvent to simulate a single touch with a mouse.
      * @param  {String} name Event type of event to dispatch.
      * @param  {MouseEvent} event Original event, that has to be adapted.
      */
     function _createAndDispatchTouchEvent(name, event){
+
         var srcEventName = event.type;
+		
+		//check if mouseevent has been process: means that a touch event already has been dispatched
+		// if true, no bubbling mouse event will be converted to a touch event, this will be done by new event
+		if(srcEventName == 'mousedown' || srcEventName == 'mouseup' || srcEventName == 'mousemove' || srcEventName == 'mouseover' || srcEventName == 'mouseout'){
+			// check if the init mouse event lies on stack
+			if(event === this.targetMouseEvent){
+				return;
+			}else{
+				this.targetMouseEvent=event;
+			}
+		}
+		
         // check that a mouse gesture starts
         if (srcEventName == 'mousedown') {
             this._mouseMoveEventEnabled = true;
@@ -621,13 +627,13 @@ GeForMT.Observation = (function(){
         }
     }
     
-	/**
-	 * Helper method for cross-browser registering of event listeners.
-	 * @param {Element} element
-	 * @param {String} eventName
-	 * @param {Function} handler
-	 * @param {Boolean} captureEvents
-	 */
+    /**
+     * Helper method for cross-browser registering of event listeners.
+     * @param {Element} element
+     * @param {String} eventName
+     * @param {Function} handler
+     * @param {Boolean} captureEvents
+     */
     function _addEventListener(element, eventName, handler, captureEvents){
         if (document.addEventListener) {
             // W3C
@@ -643,15 +649,15 @@ GeForMT.Observation = (function(){
             }
     }
     /**
-	 * Helper method for cross-browser removing of event listeners.
-	 * @param {Element} element
-	 * @param {String} eventName
-	 * @param {Function} handler
-	 */
-     function _removeEventListener(element, eventName, handler){
+     * Helper method for cross-browser removing of event listeners.
+     * @param {Element} element
+     * @param {String} eventName
+     * @param {Function} handler
+     */
+    function _removeEventListener(element, eventName, handler, captureEvents){
         if (document.removeEventListener) {
             // W3C
-            element.removeEventListener(eventName, handler);
+            element.removeEventListener(eventName, handler, captureEvents);
         }
         else 
             if (document.detachEvent) {
@@ -677,7 +683,7 @@ GeForMT.Observation = (function(){
             _registeredEventObservations = [];
             
             //create EventObservation on 'document'-Object to get feedback on the entire interface
-            _documentEventObservation = new EventObservation("feedback", document,true);
+            _documentEventObservation = new EventObservation("feedback", document, true);
             
         },
         /**
@@ -699,7 +705,7 @@ GeForMT.Observation = (function(){
                     }
                 }
                 else {
-                    _registeredEventObservations.push(new EventObservation(gestureId,elementList[i],false));
+                    _registeredEventObservations.push(new EventObservation(gestureId, elementList[i], false));
                 }
             }
             //console.debug(_registeredEventObservations);
@@ -727,26 +733,24 @@ GeForMT.Observation = (function(){
          * Removes a gesture identifier from an event observation.
          * @param {String} gestureId Identifier of the gesture, that has to be removed.
          */
-         removeGestureFromEventObservation: function(gestureId){
-         	var observationListLength = _registeredEventObservations.length;
-         	
-            for (var i in _registeredEventObservations) {
-            	 var registeredObservation = _registeredEventObservations[i];       	 
-                  registeredObservation.removeGestureId(gestureId);
-            	 if(registeredObservation.gestureIdList.length===0){
-            	 registeredObservation.finalize();
-            	  _registeredEventObservations.splice(i,1);
-            	  if(_registeredEventObservations.length==1){
-            	  	_registeredEventObservations=[];
-            	  }
-            	 }
+        removeGestureFromEventObservation: function(gestureId){
+            for (var i = 0; i < _registeredEventObservations.length; i++) {
+                var registeredObservation = _registeredEventObservations[i];
+                registeredObservation.removeGestureId(gestureId);
+                if (registeredObservation.gestureIdList.length === 0) {
+                    registeredObservation.finalize();
+                    _registeredEventObservations.splice(i, 1);
+                    if (_registeredEventObservations.length == 1) {
+                        _registeredEventObservations = [];
+                    }
+                }
             }
-         },
+        },
         /**
          * Register listener objects that wants to be notified about all interaction
          * events.
-		 * @param {String} eventName
-		 * @param {Function} callback
+         * @param {String} eventName
+         * @param {Function} callback
          */
         registerGestureEventListener: function(eventType, callback){
         
@@ -755,12 +759,12 @@ GeForMT.Observation = (function(){
             }
             
         },
-		/**
+        /**
          * Remove listener that don't want to be notified about all interaction
          * events anymore.
-		 * @param {String} eventName
-		 * @param {Function} callback
-		 */
+         * @param {String} eventName
+         * @param {Function} callback
+         */
         removeGestureEventListener: function(eventType, callback){
         
             if (typeof RegisteredGestureEventListener[eventType] != 'undefined') {
@@ -774,12 +778,12 @@ GeForMT.Observation = (function(){
             
         },
         
-		/**
-		 * Register listener objects that wants to be notified about
+        /**
+         * Register listener objects that wants to be notified about
          * events that are registered on document object. (only on document)
-		 * @param {String} eventName
-		 * @param {Function} callback
-		 */
+         * @param {String} eventName
+         * @param {Function} callback
+         */
         registerDocumentEventListener: function(eventName, callback){
         
             if (typeof RegisteredDocumentEventListener[eventName] != 'undefined') {
@@ -787,12 +791,12 @@ GeForMT.Observation = (function(){
             }
             
         },
-		/**
+        /**
          * Remove listener that don't want to be notified about
          * events on document object anymore. (only on document)
-		 * @param {String} eventName
-		 * @param {Function} callback
-		 */
+         * @param {String} eventName
+         * @param {Function} callback
+         */
         removeDocumentEventListener: function(eventName, callback){
         
             if (typeof RegisteredDocumentEventListener[eventName] != 'undefined') {
