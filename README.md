@@ -1,6 +1,6 @@
 # Gesture Formalization for Multitouch (GeForMT) JavaScript Implementation
 
-## Prerequistes
+## Prerequisites
 
 ### Install ANT
 
