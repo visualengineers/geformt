@@ -1,5 +1,7 @@
 # Gesture Formalization for Multitouch (GeForMT) JavaScript Implementation
 
+## [Project Website](http://geformt.org)
+
 ## Prerequisites
 
 ### Install ANT
