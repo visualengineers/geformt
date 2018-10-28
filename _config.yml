@@ -65,7 +65,7 @@ sidebar_home_link:  false
                                 # to enable a separate blog link.
 
 hydeout:
-    repo: "https://github.com/idontknowyet"
+    repo: "https://github.com/visualengineers/geformt"
     version: 1.0
 
 # version: 1.0
