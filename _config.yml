@@ -17,7 +17,7 @@ title: GeForMT
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Gesture Formalization for Multitouch
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/geformt" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: kammerjaeger
 github_username:  dkammer
