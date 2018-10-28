@@ -1,0 +1,729 @@
+<html>
+    <head>
+        <title>GeForMT.js - Test Bench</title>
+        <link href="testBenchStyle.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="../script/magictouch.js"></script>
+        <script type="text/javascript" src="../script/jsGeForMT_v1.0b.min.js"></script>
+        <script type="text/javascript">
+        
+        var palmPilotUnistrokeAlphabet = {
+            A: {
+                expr: "1F(LINE_NE(#canvas),LINE_SE(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            B: {
+                expr: "1F(LINE_S(#canvas),LINE_S(#canvas),LINE_N(#canvas),LINE_N(#canvas),SEMICIRCLE_S_CW(#canvas),SEMICIRCLE_S_CW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            C: {
+                expr: "1F(SEMICIRCLE_S_CCW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            D: {
+                expr: "1F(LINE_S(#canvas),LINE_N(#canvas),SEMICIRCLE_S_CW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            E: {
+                expr: "1F(SEMICIRCLE_SW_CCW(#canvas),SEMICIRCLE_SE_CCW(#canvas))|1F(SEMICIRCLE_S_CCW(#canvas),SEMICIRCLE_S_CCW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            F: {
+                expr: "1F(LINE_W(#canvas),LINE_S(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            G: {
+                expr: "1F(SEMICIRCLE_SW_CCW(#canvas),SEMICIRCLE_SE_CCW(#canvas),LINE_N(#canvas),LINE_E(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            H: {
+                expr: "1F(LINE_S(#canvas),SEMICIRCLE_E_CW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            I: {
+                expr: "1F(LINE_S(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            J: {
+                expr: "1F(LINE_S(#canvas),SEMICIRCLE_W_CW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            K: {
+                expr: "1F(LINE_SW(#canvas),LINE_SW(#canvas),CIRCLE_E_CW,LINE_SE(#canvas),LINE_SE(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            L: {
+                expr: "1F(LINE_S(#canvas),LINE_E(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            M: {
+                expr: "1F(LINE_N(#canvas),LINE_N(#canvas),LINE_SE(#canvas),LINE_NE(#canvas),LINE_S(#canvas),LINE_S(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            N: {
+                expr: "1F(LINE_N(#canvas),LINE_SE(#canvas),LINE_N(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            O: {
+                expr: "1F(CIRCLE_N(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            P: {
+                expr: "1F(LINE_S(#canvas),LINE_S(#canvas),LINE_N(#canvas),LINE_N(#canvas),SEMICIRCLE_S_CW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            Q: {
+                expr: "1F(CIRCLE_N(#canvas),LINE_E(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            R: {
+                expr: "1F(LINE_S(#canvas),LINE_S(#canvas),LINE_N(#canvas),LINE_N(#canvas),SEMICIRCLE_S_CW(#canvas),LINE_SE(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            S: {
+                expr: "1F(SEMICIRCLE_SW_CCW(#canvas),LINE_SE(#canvas),SEMICIRCLE_SW_CW(#canvas))|1F(SEMICIRCLE_S_CCW(#canvas),SEMICIRCLE_S_CW(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            T: {
+                expr: "1F(LINE_E(#area),LINE_S(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            U: {
+                expr: "1F(LINE_S(#canvas),SEMICIRCLE_E_CCW(#canvas),LINE_N(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            V: {
+                expr: "1F(LINE_SE(#canvas),LINE_NE(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            W: {
+                expr: "1F(LINE_SE(#canvas),LINE_NE(#canvas),LINE_SE(#canvas),LINE_NE(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            X: {
+                expr: "CROSS[1F(LINE_SW(#canvas));1F(LINE_SE(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            Y: {
+                expr: "1F(SEMICIRCLE_E_CCW(#canvas),LINE_S(#canvas),LINE_S(#canvas),SEMICIRCLE_W_CW(#canvas),LINE_NE(#canvas),LINE_NE(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            Z: {
+                expr: "1F(LINE_E(#canvas),LINE_SW(#canvas),LINE_E(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            }
+        
+        };
+        /**
+         * Multistroke symbolic gestures of Anthony and Wobbrock.
+         * @see http://depts.washington.edu/aimgroup/proj/dollar/ndollar.html
+         */
+        var multistrokeGestures = {
+            A: {
+                expr: "CROSS[1F(LINE_NE(#canvas),LINE_SE(#canvas));1F(LINE_E(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            D: {
+                expr: "ASIDE[1F(LINE_S(#canvas));1F(SEMICIRCLE_S_CW(#canvas))]|ASIDE[1F(SEMICIRCLE_S_CW(#canvas));1F(LINE_S(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            G: {
+                expr: "1F(SEMICIRCLE_S_CCW(#canvas));1F(LINE_E(#canvas),LINE_S(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            H: {
+                expr: "1F(LINE_S(#canvas));1F(LINE_S(#canvas));1F(LINE_E(#canvas))",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            Q: {
+                expr: "CROSS[1F(CIRCLE_N(#canvas));1F(LINE_SE(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            R: {
+                expr: "ASIDE[1F(LINE_S(#canvas));1F(SEMICIRCLE_S_CW(#canvas),LINE_SE(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            exlamation: {
+                expr: "AMONG[1F(LINE_S(#canvas));1F(POINT(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            questionmark: {
+                expr: "AMONG[1F(SEMICIRCLE_SE_CW(#canvas),SEMICIRCLE_S_CCW(#canvas));1F(POINT(#canvas))]|AMONG[1F(SEMICIRCLE_S_CW(#canvas),LINE_S(#canvas));1F(POINT(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            avg: {
+                expr: "CROSS[1F(CIRCLE_N(#canvas));1F(LINE_SW(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            arrowhead: {
+                expr: "ASIDE[1F(LINE_E(#canvas));1F(LINE_SE,LINE_SW(#canvas))]|ASIDE[1F(LINE_W(#canvas));1F(LINE_SE,LINE_SW(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            sixPointStar: {
+                expr: "CROSS[1F(LINE_NE(#canvas),LINE_SE(#canvas),LINE_W(#canvas));1F(LINE_E(#canvas),LINE_SW(#canvas),LINE_NW(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            asterisk: {
+                expr: "CROSS[1F(LINE_SW(#canvas));1F(LINE(#canvas));1F(LINE(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            dots: {
+                expr: "CONNECT_END[1F(POINT(#canvas));1F(POINT(#canvas));1F(POINT(#canvas))]",
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            }
+        };
+        var multitouchGestures = {
+            waves: {
+             expr: "SYNC[2F(SEMICIRCLE_E_CW(#canvas),SEMICIRCLE_E_CCW(#canvas))]",
+             online: false,
+             handler: function(e){
+             gestureRecognized(e);
+             }
+            },
+            multiTap: {
+                expr: "2F(POINT(#canvas))|3F(POINT(#canvas))|4F(POINT(#canvas))|5F(POINT(#canvas))",
+                online: false,
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            shrink: {
+                expr: "JOIN[2F(LINE(#canvas))]",
+                online: false,
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            },
+            pinch: {
+                expr: "SPLIT[2F(LINE(#canvas))]",
+                online: false,
+                handler: function(e){
+                    gestureRecognized(e);
+                }
+            }
+        };
+        
+        
+        var objectOrientedGestures = {
+            tapObject: {
+                expr: "1F(POINT(div.objects))",
+                online: true,
+                handler: function(e){
+                    gestureRecognized(e);
+                    var object = e.target;
+                    object.style.background = "#1C86EE";
+                }
+            },
+            moveObject: {
+                expr: "1F(MOVE(div.objects))",
+                online: true,
+                handler: function(e){
+                    var object = e.target;
+                    var objectId = object.id;
+                    var touches = e.currentEvent.touches;
+                    if (touches.length == 1) {
+                        var x = touches[0].pageX - (object.offsetLeft + (object.offsetWidth / 2));
+                        var y = touches[0].pageY - (object.offsetTop + (object.offsetHeight / 2));
+                        currentPosition[objectId].x = x;
+                        currentPosition[objectId].y = y;
+                        object.style.webkitTransform = object.style.MozTransform = object.style.msTransform = object.style.OTransform = object.style.transform = "translate(" + x + "px," + y + "px)" + "scale(" + currentScale[objectId] + ")";
+                        gestureRecognized(e);
+                    }
+                }
+            },
+            scaleObject: {
+                expr: "2F(LINE(div.objects))",
+                online: true,
+                handler: function (e) {
+                    var object = e.target;
+                    var objectId = object.id;
+
+
+                    var touches = e.currentEvent.touches;
+
+                    if (touches.length == 2) {
+                        /*x1 = touches[0].pageX - (object.offsetLeft + (object.offsetWidth / 2));
+                        y1 = touches[0].pageY - (object.offsetTop + (object.offsetHeight / 2));
+                        x2 = touches[1].pageX - (object.offsetLeft + (object.offsetWidth / 2));
+                        y2 = touches[1].pageY - (object.offsetTop + (object.offsetHeight / 2));
+                        x = (x1 + x2) / 2;
+                        y = (y1 + y2) / 2;*/
+
+                        if (typeof e.currentEvent.scale !== 'undefined') {
+                            currentScale[objectId] = e.currentEvent.scale;
+                        } else {
+                            var initTouches = e.events[0][0];
+                            for (var ci = 0; ci < e.events[0].length; ci++) {
+                                if (e.events[0][ci].contacts.length == 2) {
+                                    initTouches = e.events[0][ci];
+                                    break;
+                                }
+                            }
+
+                            if (initTouches.contacts.length == 2) {
+                                var x1 = initTouches.contacts[0].pageX;
+                                var x2 = initTouches.contacts[1].pageX;
+                                var y1 = initTouches.contacts[0].pageY;
+                                var y2 = initTouches.contacts[1].pageY;
+                                var dx = x1 - x2;
+                                var dy = y1 - y2;
+                                var initDelta = Math.sqrt(dx * dx + dy * dy);
+
+                                var cx1 = touches[0].pageX;
+                                var cy1 = touches[0].pageY;
+                                var cx2 = touches[1].pageX;
+                                var cy2 = touches[1].pageY;
+                                var cdx = cx1 - cx2;
+                                var cdy = cy1 - cy2;
+
+                                var currentDelta = Math.sqrt(cdx * cdx + cdy * cdy);
+
+                                currentScale[objectId] = currentDelta / initDelta;
+                            }
+                        }
+
+                        object.style.webkitTransform = object.style.MozTransform = object.style.msTransform = object.style.OTransform = object.style.transform = "translate(" + currentPosition[objectId].x + "px," + currentPosition[objectId].y + "px)" + "scale(" + (currentScale[objectId]) + ")";
+                        gestureRecognized(e);
+                    }
+                }
+            },
+            lasso: {
+                expr: "1F(CIRCLE(div#canvas))",
+                online: false,
+                handler: function(e){
+                    gestureRecognized(e);
+                    //var object = e.target;
+                    //object.style.background="#0E4A82";//#1C86EE
+                    
+                    var circlePath = e.pathes[0];
+                    var points = circlePath[0].points;
+                    
+                    var minX = +Infinity;
+                    var maxX = 0;
+                    var minY = +Infinity;
+                    var maxY = 0;
+                    for (var p = 0; p < points.length; p++) {
+                        var x = points[p].x;
+                        var y = points[p].y;
+                        if (x < minX) {
+                            minX = x;
+                        }
+                        if (y < minY) {
+                            minY = y;
+                        }
+                        if (x > maxX) {
+                            maxX = x;
+                        }
+                        if (y > maxY) {
+                            maxY = y;
+                        }
+                    }
+                    var r = (maxY - minY) / 2;
+                    var midPoint = {
+                        x: minX + ((maxX - minX) / 2),
+                        y: minY + ((maxY - minY) / 2)
+                    };
+                    
+                    //is object in circle?
+                    var objects = document.getElementsByClassName('objects');
+                    for (var o = 0; o < objects.length; o++) {
+                        var obj = objects[o];
+						var objPos=_findPos(obj);
+                        var objMidPoint = {};
+						
+						if(objPos.x==currentPosition[obj.id].x && objPos.y==currentPosition[obj.id].y){
+							objMidPoint.x=objPos.x+(obj.offsetWidth / 2);
+							objMidPoint.y=objPos.y+(obj.offsetHeight/ 2);
+							
+						}else{
+							objMidPoint.x=objPos.x+currentPosition[obj.id].x+(obj.offsetWidth / 2);
+							objMidPoint.y=objPos.y+currentPosition[obj.id].y+(obj.offsetHeight/ 2);
+						}                        
+                        var dx = objMidPoint.x - midPoint.x;
+                        var dy = objMidPoint.y - midPoint.y;
+                        
+                        var distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance <= r) {
+                            obj.style.background = '#0E4A82';
+                        }
+                    }
+                    
+                }
+            }
+        };
+        //current scale of objects
+        var currentScale = {
+            obj1: 1.0,
+            obj2: 1.0,
+            obj3: 1.0
+        };
+        //current position of objects
+        var currentPosition = {
+            obj1: {
+                x: 0,
+                y: 0
+            },
+            obj2: {
+                x: 0,
+                y: 0
+            },
+            obj3: {
+                x: 0,
+                y: 0
+            }
+        };
+        
+        function _findPos(obj){
+            var curleft = 0;
+            var curtop = 0;
+			var tagname;
+            while ((typeof obj == "object") && (typeof obj.tagName != "undefined")) {
+                curleft += obj.offsetLeft;
+                curtop += obj.offsetTop;
+                tagname = obj.tagName.toUpperCase();
+                if (tagname == "BODY") {
+                    obj = 0;
+                }
+                if (typeof obj == "object") {
+                    if (typeof obj.offsetParent == "object") {
+                        obj = obj.offsetParent;
+                    }
+                }
+            }
+			return {x: curleft, y: curtop};
+        }
+        
+        var settings = {
+            useDefaultGestures: false,
+            feedback: true,
+            preventDefault: true,
+            simulateTouchEvents: true // not implemented
+        };
+        var newLine = document.createElement("br");
+        
+        function init(){
+            //setup objects
+            currentPosition.obj1 = {
+                x: document.getElementById("obj1").offsetLeft,
+                y: document.getElementById("obj1").offsetTop
+            };
+            currentPosition.obj2 = {
+                x: document.getElementById("obj2").offsetLeft,
+                y: document.getElementById("obj2").offsetTop
+            };
+            currentPosition.obj3 = {
+                x: document.getElementById("obj3").offsetLeft,
+                y: document.getElementById("obj3").offsetTop
+            };
+            
+            
+            // get settings
+            var feedbackChecked = document.initForm.feedback.checked;
+            var preventDefaultChecked = document.initForm.preventDefault.checked;
+            var settings = {
+                feedback: feedbackChecked,
+                preventDefault: preventDefaultChecked
+            };
+            
+            // get configured gesture set
+            var radioSet = document.initForm.set;
+            var gestures = {};
+            for (var i = 0; i < radioSet.length; i++) {
+            
+                var set = radioSet[i];
+                if (set.value == "no" && set.checked) {
+                    // default
+                }
+                if (set.value == "palm" && set.checked) {
+                    gestures = palmPilotUnistrokeAlphabet;
+                }
+                if (set.value == "multistroke" && set.checked) {
+                    gestures = multistrokeGestures;
+                }
+                if (set.value == "multitouch" && set.checked) {
+                    gestures = multitouchGestures;
+                }
+                if (set.value == "object" && set.checked) {
+                    gestures = objectOrientedGestures;
+                }
+            }
+            
+            // get console output container
+            var consoleDiv = document.getElementById("console");
+            
+            //!!! initialize gesture recognition framework
+            try {
+                GeForMT.init(gestures, settings);
+            } 
+            catch (e) {
+                createConsoleOutput("exceptionOutput", e);
+                throw e;
+            }
+            
+            //init recognitionstarted event listener
+            GeForMT.addRecognitionStartedEventListener(function(e){
+                createConsoleOutput("blackOutput", "Gesture recognition in progress...");
+            });
+            
+            //init recognitionfailed event listener
+            GeForMT.addRecognitionFailedEventListener(function(e){
+                createConsoleOutput("warningOutput", "No gesture recognized!");
+            });
+            
+            //init candidates event listener
+            GeForMT.addRecognizedCandidatesEventListener(function(e){
+                createConsoleOutput("blackOutput", "Candidates: " + e.candidates);
+            });
+            
+            //create global settings output
+            createConsoleOutput("greyOutput", "Global Settings: feedback=" + feedbackChecked + "; " + "preventDefault=" + preventDefaultChecked + "; ");
+            
+            //gesture set output
+            var gestureKeys = Object.keys(gestures);
+            if (gestureKeys.length !== 0) {
+            
+                createConsoleOutput("greyOutput underline", "Predefined Gestures:");
+                
+                for (var j = 0; j < gestureKeys.length; j++) {
+                    var registeredGesture = gestures[gestureKeys[j]];
+                    var onlineRecSetting = "OFF";
+                    if (registeredGesture.online) {
+                        onlineRecSetting = "ON";
+                    }
+                    createConsoleOutput("greyOutput", registeredGesture.identifier + " = " + registeredGesture.expr + " : " + onlineRecSetting);
+                }
+            }
+            else {
+                //Warning output
+                createConsoleOutput("warningOutput", "Warning: No gestures defined!");
+            }
+            createConsoleOutput("successOutput", "Initialization successfully completed.");
+            
+            document.getElementById("initButton").disabled=true;
+            document.getElementById("addButton").disabled=false;
+			
+            return true;
+        }
+        
+        function createConsoleOutput(classValue, message){
+            var consoleDiv = document.getElementById("console");
+            
+            var outputContainer = document.createElement("p");
+            var className = document.createAttribute("class");
+            className.nodeValue = classValue;
+            outputContainer.setAttributeNode(className);
+            var output = document.createTextNode(message);
+            outputContainer.appendChild(output);
+            consoleDiv.appendChild(outputContainer);
+        }
+        
+        function add(){
+            //get console div element
+            var consoleDiv = document.getElementById("console");
+            
+            //get form input
+            var identifier = document.addForm.identifier.value;
+            
+            var expr = document.addForm.expr.value;
+            var online = false;
+            var radioSet = document.addForm.config;
+            var onlineRecSetting = "OFF";
+            
+            for (var i = 0; i < radioSet.length; i++) {
+            
+                var set = radioSet[i];
+                if (set.value == "on" && set.checked) {
+                    online = true;
+                    onlineRecSetting = "ON";
+                }
+                if (set.value == "off" && set.checked) {
+                    //default
+                }
+                
+            }
+            try {
+                // register custom gesture
+                GeForMT.addGesture({
+                    identifier: identifier,
+                    expr: expr,
+                    online: online,
+                    handler: function(e){
+                        gestureRecognized(e);
+                    }
+                });
+            } 
+            catch (e) {
+                createConsoleOutput("exceptionOutput", e);
+                throw e;
+            }
+            
+            createConsoleOutput("successOutput", "Custom gesture with ID [" + identifier + "] successfully registered and initialized. Full definition: " + identifier + " = " + expr + " : " + onlineRecSetting);
+            
+            return true;
+        }
+        
+        function gestureRecognized(e){
+            createConsoleOutput("successOutput", "Gesture Recognized: ID = " + e.identifier);
+            
+        }
+        
+        
+        window.onload = function(){
+        
+            var consoleDiv = document.getElementById("console");
+            consoleDiv.addEventListener("DOMNodeInserted", function(){
+                consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            }, false);
+			
+			document.getElementById("initButton").disabled=false;
+            document.getElementById("addButton").disabled=true;
+        };
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <h1>GeForMT.js &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;Test Environment</h1>
+        </div>
+        <div id="controlpanel">
+            <form name="initForm">
+                <h2>1) Initialize recognition and gesture sets</h2>
+                <h3>Global Settings</h3>
+                <input type="checkbox" name="feedback" value="feedback" checked="checked" />Show feedback
+                <br/>
+                <input type="checkbox" name="preventDefault" value="preventDefault" checked="checked" />Prevent default 
+                <br/>
+                <br/>
+                <a href="help/help.html" target="_blank"><h3>Predefinied Gesture Sets</h3></a>
+                <input type="radio" name="set" value="no" checked="checked"/>None
+                <br/>
+                <input type="radio" name="set" value="palm" />Graffiti
+                <br/>
+                <input type="radio" name="set" value="multistroke" />Multistroke gestures
+                <br/>
+                <input type="radio" name="set" value="multitouch" />Multitouch gestures
+                <br/>
+                <input type="radio" name="set" value="object" />Object oriented gestures
+                <br/>
+                <input type="button" id="initButton" value=" Initialize " onClick="return init();"/>
+            </form>
+            <br/>
+            <hr/>
+            <form name="addForm">
+                <h2>2) Define custom gesture</h2>
+                Identifier of the gesture (must be unique):
+                <br/>
+                <input type="text" size="40" name="identifier" />
+                <br/>
+                GeForMT expression:
+                <br/>
+                <input type="text" size="40" name="expr" />
+                <br/>
+                Recognition configuration:
+                <br/>
+                <input type="radio" name="config" value="on" />Online recognition
+                <br/>
+                <input type="radio" name="config" value="off" checked="checked"/>Offline recognition
+                <br/>
+                <br/>
+                <input type="button" id="addButton" value=" Add Gesture " onClick="return add();" disabled="disabled"/>
+            </form>
+        </div>
+        <div id="canvas">
+            div#canvas 
+            <br/>
+            <div id="obj3" class="objects">
+                div#obj3
+            </div>
+            <div id="obj2" class="objects">
+                div#obj2
+            </div>
+            <div id="obj1" class="objects">
+                div#obj1
+            </div>
+        </div>
+        <div id="console">
+            <h3>Console</h3>
+        </div>
+        <object id="tuio" type="application/x-tuio" style="width:0px; height:0px;clear:both;">
+            Plugin for receiving TUIO messages failed to load. Install the npTuioClient-Plugin, 
+			if your recognition system is build on top of the TUIO framework. Otherwise ignore this message.
+        </object>
+    </body>
+</html>

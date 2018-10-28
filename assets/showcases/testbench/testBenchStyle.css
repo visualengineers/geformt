@@ -1,0 +1,125 @@
+*{
+	font-family: Verdana;
+	font-size: 10pt;
+	}
+
+div#header{
+	border-bottom: 1px solid black;	
+	width:100%
+	}
+
+h1 {
+	font-size: 14pt;
+	font-weight: 200;
+}
+
+h2 {
+	font-size: 12pt;
+	font-weight: 200;
+	text-decoration: underline;
+}
+
+h3 {
+	font-size: 9pt;
+	font-weight: 200;
+	text-decoration: underline;
+	text-color: grey;
+	margin:5px;
+}
+
+div#canvas{
+	margin:5px;
+	width: 78%;
+	height: 65%;
+	border: 1px solid black;
+	background-color: #dedede;
+	float: right;
+ -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+div.objects{
+	width: 100px;
+	height: 100px;
+	background-color: #1C86EE;
+	float:right;	
+	margin:10px;
+	border:1px solid #fff;
+	}
+
+div#controlpanel{
+	float: left;
+	width: 15%;
+	margin-left:20px;
+}
+
+a{
+font-size:7pt;
+margin-left: 5px;
+	}
+
+input[type=text]{
+	width: 100%;
+	}
+input[type=button]{
+	float:right;
+	}
+
+div#console{
+	float:right;
+	width: 78%;
+	height:25%;
+	margin:5px;
+	border:1px solid black;
+	overflow:scroll;
+	font-size: 9pt;
+	font-weight: 200;
+}
+
+
+p.greyOutput{
+	font-size: 9pt;
+	font-weight: 200;
+	color: grey;
+	margin:5px;
+	white-space:nowrap;
+}
+
+p.blackOutput{
+	font-size: 9pt;
+	font-weight: 200;
+	color: black;
+	margin:5px;
+	white-space:nowrap;
+}
+
+p.underline{
+	text-decoration: underline;
+	}
+p.bold{
+	font-weight: 600;
+	}
+
+p.exceptionOutput{
+	font-size: 9pt;
+	font-weight: 200;
+	color: red;
+	margin:5px;
+}
+
+p.warningOutput{
+	font-size: 9pt;
+	font-weight: 200;
+	color: orange;
+	margin:5px;
+}
+
+p.successOutput{
+	font-size: 9pt;
+	font-weight: 200;
+	color: green;
+	margin:5px;
+	white-space:nowrap;
+}

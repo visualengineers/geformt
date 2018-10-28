@@ -1,0 +1,839 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Gesture Formalization for Multi-touch Editor</title>
+
+        <link type="text/css" rel="stylesheet" href="style.css" />
+        <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300">
+        <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+
+        <script type="text/javascript" src="../script/jsGeForMT_v1.0b.min.js"></script>
+        <script type="text/javascript" src="../lib/raphael-min.js"></script>
+		<script type="text/javascript" src="../lib/magictouch.js"></script>
+		
+        <script>
+        	var direction = true;
+        	var rotation = true;
+        	var currentVis = null;
+        
+			var GestureFactory = (function() {
+            	// we need two gesture stores for desktop browsers, because a gesture (usually 1F(POINT))
+            	// is needed to add a gesture to the gesture expression that is built
+            	var gestureStore = new Array(3);
+            	
+            	gestureStore[0] = new Object();
+            	gestureStore[0]["contacts"] = 0;
+				gestureStore[0]["expression"] = "";
+				gestureStore[0]["complete"] = "";
+				
+				gestureStore[1] = new Object();
+            	gestureStore[1]["contacts"] = 0;
+				gestureStore[1]["expression"] = "";
+				gestureStore[1]["complete"] = "";
+				
+				// the third entry holds the final gesture that is being created
+				gestureStore[2] = new Object();
+            	gestureStore[2]["contacts"] = 0;
+				gestureStore[2]["expression"] = "";
+				gestureStore[2]["complete"] = "";
+				gestureStore[2]["final"] = "";
+				
+				// array for storing constraints
+				var currentConstraint = 0;
+				var constraints = new Array(10);
+				constraints[0] = "No Constraint";
+				constraints[1] = "SYNC";
+				constraints[2] = "JOIN";
+				constraints[3] = "SPLIT";
+				constraints[4] = "CROSS";
+				constraints[5] = "CONNECT_START";
+				constraints[6] = "CONNECT_END";
+				constraints[7] = "ASIDE";				
+				constraints[8] = "AMONG";				
+				constraints[9] = "CLOSE";
+								
+				var storeSwitch = 0;
+				var atomicCount = 0;
+				
+				return {
+					_reset: function()
+					{
+						gestureStore = new Array(3);
+            	
+		            	gestureStore[0] = new Object();
+		            	gestureStore[0]["contacts"] = 0;
+						gestureStore[0]["expression"] = "";
+						gestureStore[0]["complete"] = "";
+						
+						gestureStore[1] = new Object();
+		            	gestureStore[1]["contacts"] = 0;
+						gestureStore[1]["expression"] = "";
+						gestureStore[1]["complete"] = "";
+						
+						// the third entry holds the final gesture that is being created
+						gestureStore[2] = new Object();
+		            	gestureStore[2]["contacts"] = 0;
+						gestureStore[2]["expression"] = "";
+						gestureStore[2]["complete"] = "";
+						gestureStore[2]["final"] = "";
+										
+						storeSwitch = 0;
+						atomicCount = 0;
+						
+						// remove UI stuff
+						var gestureSave=document.getElementById("gestureOne");
+						while(gestureSave.hasChildNodes()) gestureSave.removeChild(gestureSave.firstChild);
+						
+						var errorField=document.getElementById("error");
+						errorField.style.visibility="hidden";		                        
+						var exprField=document.getElementById("expr")
+						while (exprField.hasChildNodes()) {
+			            	exprField.removeChild(exprField.lastChild);
+			            }
+			            
+			            document.getElementById("gestureName").value = "newname";
+			            //document.getElementById("gestureName").focus();
+			            
+                        if (currentVis !== null) {
+                            currentVis.remove();
+                        }
+					},
+					
+					_cache: function(contacts,expr)
+					{
+						gestureStore[storeSwitch]["contacts"]   = contacts;
+						gestureStore[storeSwitch]["expression"] = expr;
+						gestureStore[storeSwitch]["complete"]   = contacts+"F("+expr+")";
+						
+						if(atomicCount == 0)
+						{
+							var button = document.getElementById("concatenate");
+							button.style.visibility = "visible";
+						}
+						
+						// only needed for desktop browser
+						//storeSwitch = -1 * (storeSwitch - 1);
+					},
+				
+					_store: function(relation)
+					{
+						var errorField=document.getElementById("error");
+						errorField.style.visibility="hidden";
+						
+						if(gestureStore[storeSwitch]["contacts"] == null || gestureStore[storeSwitch]["contacts"] == 0)
+						{
+							errorField.innerHTML = "Use the compass rose to define <br />an atomic gesture first!";
+							errorField.style.visibility="visible";
+							
+							return;
+						}
+						
+						if(atomicCount == 0)
+						{							
+							gestureStore[2]["contacts"] = gestureStore[storeSwitch]["contacts"];
+							gestureStore[2]["expression"] = gestureStore[storeSwitch]["expression"] + "(#gestureFormal)";
+							gestureStore[2]["complete"] = gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")";
+						}
+						else
+						{
+							if(relation == "concatenate")							
+							{
+								if(gestureStore[storeSwitch]["contacts"] == gestureStore[2]["contacts"])
+									// we can concatenate the atomic gestures!
+								{
+									gestureStore[2]["expression"] = gestureStore[2]["expression"] + "," + gestureStore[storeSwitch]["expression"] + "(#gestureFormal)";
+									gestureStore[2]["complete"] = gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")";
+								}
+								else
+									// mismatch of fingers, we cannot concatenate!
+								{
+									// TODO: display error message
+								}
+							}
+							else if(relation == "sequence")
+							{
+								// if(gestureStore[storeSwitch]["contacts"] == gestureStore[2]["contacts"])
+									// // we can concatenate the atomic gestures!
+								// {
+									// gestureStore[2]["expression"] = gestureStore[2]["expression"] + ";" + gestureStore[storeSwitch]["expression"]
+									// gestureStore[2]["complete"] = "1F(" + gestureStore[2]["expression"] + ")";
+								// }
+								// else
+									// // mismatch of fingers, we must close the current function and start new
+								// {
+									gestureStore[2]["final"] = gestureStore[2]["final"] + 
+									                           gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ");";
+									
+									gestureStore[2]["contacts"] = gestureStore[storeSwitch]["contacts"];
+									gestureStore[2]["expression"] = gestureStore[storeSwitch]["expression"] + "(#gestureFormal)";
+									gestureStore[2]["complete"] = gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")";									
+								// }
+							}
+							else if(relation == "simultaneous")
+								// close current gesture function and attach new one, 
+								// except if expression is identical to the one already stored
+							{
+								gestureStore[2]["final"] = gestureStore[2]["final"] + 
+														   gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")*";
+									
+								gestureStore[2]["contacts"] = gestureStore[storeSwitch]["contacts"];
+								gestureStore[2]["expression"] = gestureStore[storeSwitch]["expression"] + "(#gestureFormal)";
+								gestureStore[2]["complete"] = gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")";
+							}
+							else if(relation == "asynchronous")
+								// close current gesture function and attach new one, 
+								// except if expression is identical to the one already stored
+							{
+								gestureStore[2]["final"] = gestureStore[2]["final"] + 
+														   gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")+";
+									
+								gestureStore[2]["contacts"] = gestureStore[storeSwitch]["contacts"];
+								gestureStore[2]["expression"] = gestureStore[storeSwitch]["expression"] + "(#gestureFormal)";
+								gestureStore[2]["complete"] = gestureStore[2]["contacts"] + "F(" + gestureStore[2]["expression"] + ")";
+							}		
+						}
+						
+						GestureFactory._displayGesture();
+						atomicCount++;		
+					},
+					
+					_displayGesture: function()
+					{
+						var gestureSave=document.getElementById("gestureOne");
+						var displayGesture = gestureStore[2]["final"] + gestureStore[2]["complete"];
+						displayGesture = displayGesture.replace(/\(#gestureFormal\)/g,"");
+						
+						if(currentConstraint != 0)
+						{
+							displayGesture = constraints[currentConstraint] + "[" + displayGesture + "]";
+						}
+						
+						console.debug(displayGesture);
+						var textNode = document.createTextNode(displayGesture);
+						
+						while(gestureSave.hasChildNodes()) gestureSave.removeChild(gestureSave.firstChild);
+						gestureSave.appendChild(textNode);
+					},
+					
+					_register: function()
+					{
+						var identifier    = document.getElementById("gestureName").value;
+						var expression    = gestureStore[2]["final"] + gestureStore[2]["complete"];
+						
+						if(expression == "" || expression == null)
+						{
+							var errorField=document.getElementById("error");
+                 			errorField.style.visibility="visible";
+                 			errorField.innerHTML = "No gesture expression selected! <br />Use button concatenate to start.";
+                 			
+                 			var gestureSave=document.getElementById("gestureOne");
+							var textNode = document.createTextNode("The formalized gesture will appear here!");
+						
+							gestureSave.appendChild(textNode);
+						}
+						else if(document.getElementById(identifier) !== null)
+						{
+							var errorField=document.getElementById("error");
+                 			errorField.style.visibility="visible";
+                 			errorField.innerHTML = "A gesture with this identifier already exists! <br />Change identifier.";
+						}
+						else
+						{
+							if(currentConstraint != 0) expression = constraints[currentConstraint] + "[" + expression + "]";
+							
+							var gestureDiv   = document.createElement("div");						
+							var gestureSpan   = document.createElement("span");
+							var gesturesField = document.getElementById("gestures");
+							var newGesture    = document.createTextNode(identifier + "=" + expression.replace(/\(#gestureFormal\)/g,""));
+							
+							var printButtonSpan = document.createElement("span");
+							printButtonSpan.innerHTML = '<input type="button" value="Print" id="print" onclick="GestureFactory._printGesture(\'' + identifier + '\', \'' + expression.replace(/\(#gestureFormal\)/g,"") + '\')" class="input-button-small" />';
+							
+							var deleteButtonSpan = document.createElement("span");
+							deleteButtonSpan.innerHTML = '<input type="button" value="Delete" id="print" onclick="GestureFactory._deleteGesture(\'' + identifier + '\')" class="input-button-small" />';						
+							
+							var gestureConSpan = document.createElement("gestures");							
+							gestureConSpan.innerHTML = '<img src="assets/' + expression.replace(/\(#gestureFormal\)/g,"").replace(/\*/g,"") + '.png" height="45" align="top" />&nbsp;&nbsp;' 
+							
+							if(identifier == "") identifier = "Gesture " + expression;						
+							
+							gestureSpan.appendChild(newGesture);
+							
+				            gestureDiv.id = identifier;
+				            gestureDiv.appendChild(gestureSpan);
+				            gestureDiv.appendChild(gestureConSpan);	
+				            // gestureDiv.appendChild(printButtonSpan);
+				            gestureDiv.appendChild(deleteButtonSpan);				            			            
+				            
+				            gesturesField.appendChild(gestureDiv);
+				                 	
+			                GeForMT.addGesture({
+			                    identifier: identifier,
+			                    expr: expression,
+			                    handler: function(e){
+			                        // unsafe code needs to be refactored
+									var errorField=document.getElementById("error");
+									errorField.style.visibility="hidden";		                        
+									var exprField=document.getElementById("expr")
+									while (exprField.hasChildNodes()) {
+				                 		exprField.removeChild(exprField.lastChild);
+				                 	}
+									var exprTextNode = document.createTextNode(e.identifier.toUpperCase() + " recognized!");
+				                 	exprField.appendChild(exprTextNode);                     
+			                    }
+			                });
+			                
+			                var gestureSave=document.getElementById("gestureOne");
+			                while(gestureSave.hasChildNodes()) gestureSave.removeChild(gestureSave.firstChild);
+			                GestureFactory._reset();
+			        	}
+					},
+					
+					_toggleConstraint: function()
+					{						
+						var button = document.getElementById("constraint");
+						
+						currentConstraint++;
+						if(currentConstraint > constraints.length -1) currentConstraint = 0;
+						
+						if(currentConstraint == 0)
+						{
+							button.style.background = "#0076B0";
+						}
+						else				
+						{
+							button.style.background = "#ed8223";
+						}
+						
+						button.value = constraints[currentConstraint];		
+						GestureFactory._displayGesture();	
+					},
+					
+					_printGesture: function(identifier, expression)
+					{
+						console.debug(expression);
+						
+						var printExpression = document.getElementById("printExpression");
+						var exprTextNode = document.createTextNode(identifier + "=" + expression);						
+						while(printExpression.hasChildNodes()) printExpression.removeChild(printExpression.firstChild);
+						printExpression.appendChild(exprTextNode);
+
+						var printImage = document.getElementById("printImage");
+						while(printImage.hasChildNodes()) printImage.removeChild(printImage.firstChild);
+						printImage.innerHTML = '<img src="assets/' + expression + '.png" height="140"" onError="GestureFactory.testImage" />' 
+						
+						var tester=new Image();
+						tester.onLoad=GestureFactory.testImageLoad;
+					    tester.onError=GestureFactory.testImage;
+					    tester.src="assets/" + expression + ".png";
+					    
+					    print();						
+					},
+					
+					_deleteGesture: function(identifier)
+					{
+						// remove gesture from framework
+						GeForMT.removeGesture(identifier);
+						
+						// clean up HTML
+						var gesturesField = document.getElementById("gestures");
+						var gestureDiv = document.getElementById(identifier);
+						gesturesField.removeChild(gestureDiv);
+					},
+					
+					testImage: function()
+					{	
+						console.debug("no gesturecon found!");			
+						
+						var printImage = document.getElementById("printImage");
+						while(printImage.hasChildNodes()) printImage.removeChild(printImage.firstChild);
+						var helptext = document.createTextNode("Sorry, there is no gesturecon that visualizes your gesture (yet)!");
+						printImage.appendChild(helptext);
+					},
+					
+					testImageLoad: function()
+					{						
+					}
+				}
+			})();
+            
+            window.onload = function ()
+            {
+            
+                //create canvas
+                var paper = Raphael("gestureVis", "100%", "100%");
+                
+                //add a circle to the canvas
+                var circle = paper.circle(140, 140, 100);
+                // Sets the fill attribute of the circle to beautiful werkstatt-blue
+                //circle.attr("fill", "#0076B0");
+                // Sets the stroke attribute of the circle to white
+                circle.attr("stroke", "#000");
+                //draw pathes crossing the circle
+                var hori = paper.path("M20 140L260 140");
+                var vert = paper.path("M140 20L140 260");
+                var diag1 = paper.path("M60 60L220 220");
+                var diag2 = paper.path("M220 60L60 220");
+                
+                var midPoint = {
+                    x: 140,
+                    y: 140
+                };
+                
+                var nextGestureVis = null;                
+                
+                // init GeForMTjs
+                GeForMT.init(null, {
+                    preventDefault: true,
+                    feedback: true
+                });
+                
+                // add GUI gestures for buttons, only needed for iPad if gestures are globally defined!
+                // GeForMT.addGesture({
+                    // identifier: 'concatenateButton',
+                    // expr: 'POINT(#concatenate)',
+                    // handler: function(e){
+                        // GestureFactory._store('concatenate');                        
+                    // }
+                // });
+//                 
+                // GeForMT.addGesture({
+                    // identifier: 'sequenceButton',
+                    // expr: 'POINT(#sequence)',
+                    // handler: function(e){
+                        // GestureFactory._store('sequence');                        
+                    // }
+                // });
+//                 
+                // GeForMT.addGesture({
+                    // identifier: 'simultaneousButton',
+                    // expr: 'POINT(#simultaneous)',
+                    // handler: function(e){
+                        // GestureFactory._store('simultaneous');                        
+                    // }
+                // });
+//                 
+                // GeForMT.addGesture({
+                    // identifier: 'asynchronousButton',
+                    // expr: 'POINT(#asynchronous)',
+                    // handler: function(e){
+                        // GestureFactory._store('asynchronous');                        
+                    // }
+                // });
+//                 
+                // GeForMT.addGesture({
+                    // identifier: 'testButton',
+                    // expr: 'POINT(#test)',
+                    // handler: function(e){
+                        // GestureFactory._register();                        
+                    // }
+                // });
+//                 
+                // GeForMT.addGesture({
+                    // identifier: 'reloadButton',
+                    // expr: 'POINT(#reset)',
+                    // handler: function(e){
+                        // GestureFactory._reset();                        
+                    // }
+                // });
+//                 
+				// GeForMT.addGesture({
+                    // identifier: 'directionButton',
+                    // expr: 'POINT(#direction)',
+                    // handler: function(e){
+                        // _direction();                       
+                    // }
+                // });
+//                 
+				// GeForMT.addGesture({
+                    // identifier: 'rotationButton',
+                    // expr: 'POINT(#rotation)',
+                    // handler: function(e){
+                        // _rotation();                        
+                    // }
+                // });
+//                 
+                // GeForMT.addGesture({
+                    // identifier: 'nameField',
+                    // expr: 'POINT(#gestureSpan)',
+                    // handler: function(e){
+                    	// //console.debug("NAME!");
+                        // document.getElementById("gestureName").focus();
+                        // //document.getElementById("gestureName").value = "Test";               
+                    // }
+                // });
+								
+				//add hold gesture                
+                GeForMT.addGesture({
+                    identifier: 'hold',
+                    expr: 'HOLD(#gestureVis)',
+                    handler: function(e){
+                        var expr = e.expr;
+						var contacts=e.pathes[0].length;
+                        if (currentVis !== null) {
+                            currentVis.remove();
+                        }
+                        nextGestureVis = paper.circle(midPoint.x, midPoint.y, 10);
+                        nextGestureVis.attr({
+                            stroke: "#0076B0",
+                            'stroke-width': 5,
+							'fill': "#0076B0"
+                        });
+                        currentVis = nextGestureVis;
+                        _updateFormalOutput(contacts,expr.replace("(#gestureVis)",""));                        
+                    }
+                });
+                
+				//add point gesture                
+                GeForMT.addGesture({
+                    identifier: 'point',
+                    expr: 'POINT(#gestureVis)',
+                    handler: function(e){
+                        var expr = e.expr;
+						var contacts=e.pathes[0].length;
+                        if (currentVis !== null) {
+                            currentVis.remove();
+                        }
+                        nextGestureVis = paper.circle(midPoint.x, midPoint.y, 10);
+                        nextGestureVis.attr({
+                            stroke: "#0076B0",
+                            'stroke-width': 5
+                        });
+                        currentVis = nextGestureVis;
+                        _updateFormalOutput(contacts,expr.replace("(#gestureVis)",""));                        
+                    }
+                });
+                
+                //add move gesture
+                GeForMT.addGesture({
+                    identifier: 'move',
+                    expr: 'MOVE(#gestureVis)',
+                    handler: function(e){
+                        var expr = e.expr;
+						var contacts=e.pathes[0].length;
+                        if (currentVis !== null) {
+                            currentVis.remove();
+                        }
+                        
+                        path = [["M", 40, 60], ["C", 10, 140, 240, 170, 200, 240]];
+                        nextGestureVis = paper.path(path);
+                                                
+                        nextGestureVis.attr({
+                            stroke: "#0076B0",
+                            'stroke-width': 5
+                        });
+                        
+                        currentVis = nextGestureVis;
+                        _updateFormalOutput(contacts,expr.replace("(#gestureVis)",""));                        
+                    }
+                });                
+                
+                var directions = ['NW', 'NE', 'SE', 'SW', 'N', 'S', 'W', 'E'];
+                var rotations = ['CW', 'CCW'];                
+                
+                for (var i = 0; i < directions.length; i++) {
+                    var d = directions[i];
+                    
+                    //add unidimensional gestures
+                    GeForMT.addGesture({
+                        identifier: 'lineTo' + d,
+                        expr: 'LINE_' + d + '(#gestureVis)',
+                        handler: function(e){
+                        
+                            var expr = e.expr.replace("(#gestureVis)","");
+							var contacts=e.pathes[0].length;
+                            if (currentVis !== null) {
+                                currentVis.remove();
+                            }
+                            
+                            // get direction
+                            for (var i = 0; i < directions.length; i++) {
+                            
+                                //check expression and get direction
+                                if (expr.indexOf(directions[i], 4) !== -1) {
+                                    nextGestureVis = paper.path('M40 140L240 140');
+									
+                                    nextGestureVis.rotate(_getRotationDegrees(i), midPoint.x, midPoint.y);
+                                    nextGestureVis.attr({
+                                        stroke: '#0076B0',
+                                        'stroke-width': 5,
+                                        'arrow-end': 'block'
+                                    });
+                                    currentVis = nextGestureVis;
+                                    break
+                                }
+                            }
+                            
+                             _updateFormalOutput(contacts,expr);
+                            
+                        }
+                    });
+                    
+                    for (var j = 0; j < rotations.length; j++) {
+                        var r = rotations[j];
+                        
+                        //add circle gestures
+                        GeForMT.addGesture({
+                            identifier: 'circleTo' + d + r,
+                            expr: 'CIRCLE_' + d + "_" + r + '(#gestureVis)',
+                            handler: function(e){
+                                var expr = e.expr.replace("(#gestureVis)","");
+								var contacts=e.pathes[0].length;
+                                if (currentVis !== null) {
+                                    currentVis.remove();
+                                }
+                                
+                                var keyWords = expr.split("_");
+                                // get direction
+                                for (var i = 0; i < directions.length; i++) {
+                                
+                                    //check expression and get direction
+                                    
+                                    if (keyWords[1].indexOf(directions[i], 0) !== -1) {
+                                        nextGestureVis = paper.path("M240,140A100,100,0,1,1,240,139.9Z");                                        
+                                        
+                                        nextGestureVis.rotate(_getRotationDegrees(i), midPoint.x, midPoint.y);
+                                        nextGestureVis.attr({
+                                            stroke: '#0076B0',
+                                            'stroke-width': 5
+                                        });
+                                        if (keyWords[2] === "CW") {
+                                            nextGestureVis.attr("arrow-end", "block");
+                                        }
+                                        else 
+                                            if (keyWords[2] === "CCW") {
+                                                nextGestureVis.attr("arrow-start", "block");
+                                            }
+                                        currentVis = nextGestureVis;
+                                        break
+                                    }
+                                }
+                                 _updateFormalOutput(contacts,expr);
+                            }
+                        });
+                        
+                        // add semicircle gestures
+                        GeForMT.addGesture({
+                            identifier: 'semicircleTo' + d + r,
+                            expr: 'SEMICIRCLE_' + d + "_" + r + '(#gestureVis)',
+                            handler: function(e){
+                                var expr = e.expr.replace("(#gestureVis)","");
+								var contacts=e.pathes[0].length;
+                                if (currentVis !== null) {
+                                    currentVis.remove();
+                                }
+								
+                                var keyWords = expr.split("_");
+								
+                                // get direction
+                                for (var i = 0; i < directions.length; i++) {
+                                
+                                    //check expression and get direction
+                                    if (keyWords[1].indexOf(directions[i], 0) !== -1) {
+                                    
+                                        nextGestureVis = paper.path("M240,140A40,40,0,1,1,40,140");
+                                        
+                                        nextGestureVis.rotate(_getRotationDegrees(i), midPoint.x, midPoint.y);
+                                        nextGestureVis.attr({
+                                            stroke: '#0076B0',
+                                            'stroke-width': 5
+                                        });
+                                        if (keyWords[2] === "CW") {
+                                            nextGestureVis.attr("arrow-end", "block");
+											nextGestureVis.rotate(180,midPoint.x, midPoint.y)
+                                        }
+                                        else 
+                                            if (keyWords[2] === "CCW") {
+                                                nextGestureVis.attr("arrow-start", "block");
+                                            }
+                                        currentVis = nextGestureVis;
+                                        break
+                                    }
+                                }
+                                _updateFormalOutput(contacts,expr);
+                            }
+                        });
+                    }
+                }
+                
+                GeForMT.addRecognitionFailedEventListener(function(){
+                 	var exprField=document.getElementById("expr");
+					var errorField=document.getElementById("error");
+					while (exprField.hasChildNodes()) {
+                 		exprField.removeChild(exprField.lastChild);
+                 	}
+					if(currentVis!==null){ 
+						currentVis.remove();
+					}
+					currentVis=null;
+
+                 	errorField.style.visibility="visible";
+                 	errorField.innerHTML = "No gesture recognized!";
+                });                
+           
+                function _getRotationDegrees(index){
+                    var deg = 0;
+                    
+                    switch (index) {
+                        case 0:
+                            deg = 225;
+                            break;
+                        case 1:
+                            deg = 315;
+                            break;
+                        case 2:
+                            deg = 45;
+                            break;
+                        case 3:
+                            deg = 135;
+                            break;
+                        case 4:
+                            deg = 270;
+                            break;
+                        case 5:
+                            deg = 90;
+                            break;
+                        case 6:
+                            deg = 180;
+                            break;
+                        case 7:
+                            deg = 0;
+                            break;
+                    }
+                    return deg;
+                }
+                
+                function _updateFormalOutput(contacts,expr)
+                {
+                	var keyWords = expr.split("_");
+                	
+                	if(((!direction) && (!rotation)) ||
+                	   ((!direction) && (keyWords.length == 2)) )
+                	{
+                		expr = keyWords[0];
+                	}
+                	else if((!direction) && (keyWords.length > 2))
+                	{
+                		expr = keyWords[0] + "_" + keyWords[2];
+                	}
+                	else if((!rotation) && (keyWords.length > 2))
+                	{
+                		expr = keyWords[0] + "_" + keyWords[1];
+                	}                	
+                	
+					var errorField=document.getElementById("error");
+					errorField.style.visibility="hidden";
+					var exprField=document.getElementById("expr")
+					while (exprField.hasChildNodes()) {
+                 		exprField.removeChild(exprField.lastChild);
+                 	}
+					var exprTextNode = document.createTextNode(contacts+"F("+expr+")");
+                 	exprField.appendChild(exprTextNode);
+					
+					GestureFactory._cache(parseInt(contacts),expr);
+				}    
+            };
+				
+			function _direction()
+			{
+				direction =	!direction;
+					
+				var button = document.getElementById("direction");
+				if(direction)
+				{
+					button.style.background = "#0076B0";
+				}
+				else				
+				{
+					button.style.background = "#ed8223";
+				}
+			}
+			
+			function _rotation()
+			{
+				rotation =	!rotation;
+					
+				var button = document.getElementById("rotation");
+				if(rotation)
+				{
+					button.style.background = "#0076B0";
+				}
+				else				
+				{
+					button.style.background = "#ed8223";
+				}
+			}									
+        </script>
+    </head>
+    <body>
+    	<div id="container">
+    	<div id="header">
+    		<h1>Gesture Formalization for Multi-touch Editor</h1>
+    		<p>
+    			<form name="identifierForm">
+    				<span class="label" id="gestureSpan"><input type="text" value="name" id="gestureName" style="width: 80px;" /></span>
+	    			<span class="label" id="equalsSign">=</span>
+    				<span class="value" id="gestureOne"></span>
+    			</form>
+    		</p>
+    	</div>
+        <div id="gestureVis">
+        </div>
+        <div id="gestureFormal">
+			<span class="label">GeForMT Expression</span>
+			<p class="value" id="expr" /p>
+			<p class="label" id="error">No gesture recognized!</p>
+        </div>
+		<div id="control">
+			<input type="button" value="No Direction" id="direction" onclick="_direction()" class="input-button-small" />
+			<input type="button" value="No Rotation" id="rotation" onclick="_rotation()" class="input-button-small" />
+			<input type="button" value="No Constraint" id="constraint" onclick="GestureFactory._toggleConstraint()" class="input-button-small" /><br /><br />
+		
+			<input type="button" value="Concatenate (,)" id="concatenate" onclick="GestureFactory._store('concatenate')" class="input-button" />
+			<input type="button" value="Sequence (;)" id="sequence" onclick="GestureFactory._store('sequence')" class="input-button" /><br /><br />
+			
+			<input type="button" value="Simultaneous (*)" id="simultaneous" onclick="GestureFactory._store('simultaneous')" class="input-button" />
+			<input type="button" value="Asynchronous (+)" id="asynchronous" onclick="GestureFactory._store('asynchronous')" class="input-button" /><br /><br />
+
+			<input type="button" value="Register" id="test" onclick="GestureFactory._register()" class="input-button" />
+			<input type="button" value="Reset" id="reset" onclick="GestureFactory._reset()" class="input-button" /><br /><br />
+			
+		</div>
+		<div id="footer">
+			<p class="value" id="gestures" /p>
+		</div>
+		</div>
+		
+		
+		<div id="printContainer" class="printOnly">
+			<div id="printBox">
+			<h1>Gesture Bazaar</h1>
+			<div id="abstract">
+				<p class="label" id="helloText">Here's your portable gesture! Portable gestures are based on the gesture formalization for multi-touch (GeForMT). They are directly embedded in programming code and serve as intermediary between gesture design and concrete recognition algorithms.</p>
+				<p id="qrcode"><img src="assets/qrcode-big.png" /></p>
+			</div>			
+			<div id="formalization">
+				<hr />
+				<p class="value" id="printExpression">No gesture selected!</p>
+				<hr />
+			</div>
+			
+			<div id="printImage">				
+			</div>
+			<div id="printFooter">
+				<p class="footnote">
+					Dietrich Kammer, Dana Henkens, Rainer Groh | Technische Universität Dresden, Chair for Media Design<br />
+					Interactive Tabletops &amp; Surfaces 2012 | November 11-14, 2012 | HYATT Regency, Cambridge, MA<br />
+					Gesturecons created by Ryan Lee
+				</p>
+			</div>
+			</div>
+			
+		</div>
+		
+		<!-- <object id="tuio" type="application/x-tuio"></object> --> 
+    </body>
+</html>

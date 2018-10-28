@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Circle Demo</title>
+        <script type="text/javascript" src="../lib/raphael-min.js">
+        </script>
+        <script type="text/javascript" src="../script/jsGeForMT_v1.0b.min.js">
+        </script>
+        <script>
+            window.onload = function(){
+            
+                //init GeForMT
+                var settings = {
+                    preventDefault: true
+                };
+                
+                GeForMT.init(null, settings);
+                GeForMT.addGesture({
+                    identifier: "circle",
+                    expr: "1F(CIRCLE)",
+                    online: false,
+                    handler: function(e){
+                        console.debug("circle created");
+                        var midPoint=e.getMidPoint();
+
+                        createCircle(midPoint.x,midPoint.y);
+						
+                        GeForMT.addGesture({
+                            identifier: "dragCircle",
+                            expr: "1F(MOVE(circle))",
+                            online: true,
+                            handler: function(e){
+                                var x = e.currentEvent.contacts[0].pageX;
+                                var y = e.currentEvent.contacts[0].pageY;
+                                var elem = paper.getById(e.target.raphaelid);
+                                elem.attr({
+                                    cx: x,
+                                    cy: y
+                                });
+                            }
+                        });
+                    }
+                });
+                
+                
+                
+                //create canvas
+                var paper = Raphael(0, 0, "100%", "100%");
+                
+                function createCircle(x,y){
+                    //add a circle to the canvas
+                    var circle = paper.circle(x, y, 50);
+                    // Sets the fill attribute of the circle to beautiful werkstatt-blue
+                    circle.attr("fill", "#0076B0");
+                    // Sets the stroke attribute of the circle to white
+                    circle.attr("stroke", "#fff");
+                    
+                    /////////////////////////////////////////////
+                    //---- define Drag and drop functions -----//
+                    /////////////////////////////////////////////
+                
+                    //drag start, move and up (drag end), set position of element to touch position
+                    /*var start = function(){
+                     this.ox = this.attr("cx");
+                     this.oy = this.attr("cy");
+                     
+                     //change the size of the circle via animation ({attributes},time,easing)
+                     this.animate({
+                     r: 70
+                     }, 100, ">");
+                     }, move = function(dx, dy){
+                     this.attr({
+                     cx: this.ox + dx,
+                     cy: this.oy + dy
+                     });
+                     }, up = function(){
+                     this.animate({
+                     r: 50
+                     }, 100, ">");
+                     };
+                     
+                     //add drag functions to circle
+                     paper.set(circle).drag(move, start, up);*/
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <div id="holder">
+        	Draw a circle and move it around!
+        </div>
+    </body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>GeForMT Editor 2.0</title>
+
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/html5reset.css">
+	<link rel="stylesheet" href="css/960.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/toggle-switch.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<header class="toolbar">
+		<h1 class="brand">GeForMT | <span>Gesture Tiles Editor</span></h1>
+
+		<nav class="tools">
+			<ul>
+				<!-- <li class="active-panel"><a href="#" class="enable-gesture-info"><i class="icon-wrench"></i> Gesture Info</a></li> -->
+				<!-- <li><a href="#" class="enable-registered-gestures"><i class="icon-folder-open"></i> Registered Gestures</a></li> -->
+				<li><a href="#" class="enable-gesture-test"><i class="icon-beaker"></i> Gesture Test</a></li>
+				<!-- <li><a href="#" class="enable-help"><i class="icon-question-sign"></i> Help</a></li> -->
+				<li><a href="#" class="fullscreen"><i class="icon-fullscreen"></i></a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<aside class="sidebar gesture-info">
+		<form action="#">
+			<label for="gesture-name">
+				<span>Gesture Name</span>
+				<input type="text" name="gesture-name" class="gesture-name" value="Loading..." />
+			</label>
+			<label for="spatial-relation" class="small" style="margin-right: 10px;">
+				<span>Spatial Relation</span>
+				<select id="spatial-relation" class="spatial-relation" name="spatial-relation">
+					<option value="">No Constraint</option>
+					<option value="CROSS">CROSS</option>
+					<option value="JOIN">JOIN</option>
+					<option value="SYNC">SYNC</option>
+					<option value="SPREAD">SPREAD</option>
+					<option value="SPLIT">SPLIT</option>
+					<option value="CONNECT_START">CONNECT_START</option>
+					<option value="CONNECT_END">CONNECT_END</option>
+					<option value="ASIDE">ASIDE</option>
+					<option value="AMONG">AMONG</option>
+					<option value="CLOSE">CLOSE</option>
+					<option value="ADJOIN_">ADJOIN_</option>
+				</select>
+			</label>
+			<label for="gesture-time" class="extra-small" style="margin: 0 30px 0 -10px;">
+				<span>Gesture Time</span>
+				<label class="toggle android toolbutton" onclick="" style="margin-left: 0;">
+					<input class="gesture-time" id="gesttime" type="checkbox" />
+						<p>
+							<span>ON</span>
+							<span>OFF</span>
+						</p>
+					<a class="slide-button"></a>
+				</label>
+			</label>
+			<label for="related-project">
+				<span>Related Project</span>
+				<input type="text" name="gesture-name" class="related-project" value="http://" />
+			</label>
+		</form>
+		<!-- <button class="button button-delete red"><i class="icon-remove"></i>Delete Gesture</button> -->
+	</aside>
+
+	<aside class="sidebar registered-gestures">
+
+	</aside>
+
+	<section class="current-gesture">
+		<span class="expression">Current Gesture is Empty</span>
+		<button class="export button green right"><i class="icon-ok"></i>Export</button>
+		<button class="reset button right"><i class="icon-remove"></i>Reset</button>
+	</section>
+
+	<section class="timeline container_12">
+
+	</section>
+
+	<section class="gesture-test-area"></section>
+
+	<div class="recognition-overlay overlay">
+		<i class="icon-ok"></i> Geste "<span></span>" erfolgreich erkannt!
+	</div>
+
+	<div class="export-overlay overlay">
+		<strong>GeForMT Expression</strong>
+		<input type="text" name="geformt-expression" class="geformt-expression" value="" />
+
+		<br /><br />
+
+		<strong>GeForMTjs Implementation</strong>
+		<textarea name="geformtjs-implementation" class="geformtjs-implementation"></textarea>
+
+		<button class="close button">Close</button>
+	</div>
+
+	<div class="compass-rose">
+		<label class="toggle android header-toggle" onclick="">
+			<input id="view" type="checkbox" class="direction" />
+			<p>
+				<span>Direction On</span>
+				<span>Direction Off</span>
+			</p>
+
+			<a class="slide-button"></a>
+		</label>
+
+		<label class="toggle android header-toggle" onclick="">
+			<input id="view" type="checkbox" class="rotation" />
+			<p>
+				<span>Rotation On</span>
+				<span>Rotation Off</span>
+			</p>
+
+			<a class="slide-button"></a>
+		</label>
+
+		<div class="switch switch-five android">
+			<input id="finger1" class="finger" name="finger1" type="radio">
+			<label for="finger1" onclick="" style="color: #fff; background: #263239;">1F</label>
+
+			<input id="finger2" class="finger" name="finger2" type="radio">
+			<label for="finger2" onclick="" style="color: #fff;">2F</label>
+
+			<input id="finger3" class="finger" name="finger3" type="radio">
+			<label for="finger3" onclick="" style="color: #fff;">3F</label>
+
+			<input id="finger4" class="finger" name="finger4" type="radio">
+			<label for="finger4" onclick="" style="color: #fff;">4F</label>
+
+			<input id="finger5" class="finger" name="finger5" type="radio">
+			<label for="finger5" onclick="" style="color: #fff;">5F</label>
+		</div>
+
+
+		<div class="rose-canvas">
+			<button class="concatenate button button-concat highlight"><i class="icon-plus"></i>Concatenate</button>
+			<button class="cancel-concatenate button button-cancel"><i class="icon-remove"></i>Cancel</button>
+		</div>
+	</div>
+
+	<div class="disable-fullscreen-button"><a href="#" class="disable-fullscreen"><i class="icon-resize-small"></i></a></div>
+
+	<!-- Les JavaScript -->
+	<script src="js/jquery-min.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/backbone-min.js"></script>
+	<script src="js/jquery.customSelect.min.js"></script>
+	<script src="js/raphael-min.js"></script>
+	<script src="js/geformtjs-min.js"></script>
+	<script src="js/geformt-editor.js"></script>
+</body>
+</html>
