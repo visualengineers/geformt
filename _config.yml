@@ -34,7 +34,7 @@ author:
 markdown: kramdown
 highlighter: rouge
 remote_theme: fongandrew/hydeout
-theme: jekyll-theme-hydeout
+# theme: jekyll-theme-hydeout
 plugins:
   - jekyll-feed
   - jekyll-gist
